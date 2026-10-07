@@ -1,0 +1,43 @@
+# ALCOM / VPM installed packages (restored by ALCOM)
+/Packages/*
+
+# Keep package manifests
+!/Packages/manifest.json
+!/Packages/packages-lock.json
+!/Packages/vpm-manifest.json
+
+# Unity generated (project root only; keep Assets and their .meta files)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/[Uu]serSettings/
+/[Bb]lender[Ll]ogs/
+
+# IDE
+.idea/
+.vscode/
+.vs/
+
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+
+# Blender backups (including their Unity .meta files)
+*.blend[0-9]*
+
+# Python cache (including its Unity .meta files)
+__pycache__/
+__pycache__.meta
+*.pyc
+*.pyc.meta
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
