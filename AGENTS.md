@@ -1,6 +1,16 @@
 # AGENTS.md
 
-这是一个 VRChat Avatar 改模工程：ALCOM 管理项目和依赖，Git 记录改模过程。初始化步骤和提交类型见 [README.md](README.md)，这里只写给 agent 的规则。
+这是一个 VRChat Avatar 改模工程：ALCOM 管理项目和依赖，Git 记录改模过程。初始化步骤、需要安装的软件和提交类型见 [README.md](README.md)，这里只写给 agent 的规则。
+
+## 开工前
+
+1. **读 [PROJECT.md](PROJECT.md)。** 如果还是空模板，只有占位说明，先和用户一起填好再动手：基础模型、场景、头像根物体、方向和禁忌。能从项目里查到的自己查，查不到的再问。
+2. **检查环境。** 缺什么就告诉用户 README「准备」一节里的装法。系统软件不自己装，ALCOM 的包清单不自己改。
+   - `git --version`、`git lfs version` 都能用；
+   - 项目是 Git 仓库，并且执行过 `git lfs install --local`（`.git/hooks/pre-push` 里有 `git lfs`）。还没有初始存档的话，问过用户后按 README 第 4 步做；
+   - Unity 连上了：MCP for Unity 的工具可用，而且当前打开的场景属于这个项目。连着别的项目就停下，告诉用户，什么都不在那边执行；
+   - 这次要用的 VPM 包在 `Packages/vpm-manifest.json` 里。缺的请用户在 ALCOM 里装。
+3. **读进行中的 `HANDOFF-*.md`**，如果有的话。
 
 ## 资产
 
@@ -35,7 +45,8 @@
 
 ## 交接文档
 
-- 每个主题一份 `HANDOFF-<主题>.md`，放在仓库根目录，用用户的语言写：数字、用户的决定、踩过的坑。每完成一步就更新。开工前先读已有的。
+- 长期不变的事实（模型、头像和蓝图 ID、服装来源、方向和禁忌）写进 `PROJECT.md`，有变化就更新。
+- 每个主题一份 `HANDOFF-<主题>.md`，放在仓库根目录，用用户的语言写：数字、用户的决定、踩过的坑。每完成一步就更新。
 
 ## Skills
 
