@@ -124,6 +124,7 @@ agent 要通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 才能�
 | --- | --- |
 | `vrchat-avatar-unity` | 通过 MCP for Unity 操作打开着的 Unity：烘焙检查、渲染截图、测试、上传 |
 | `vrchat-pc-good` | 把头像做到 PC Good（绿模），附参考脚本 |
+| `vrchat-expressions` | 捏脸、FaceEmo 表情、妆容和 MMD 世界兼容 |
 | `booth-research` | Booth 选购调研，附 `booth.py`（搜索、商品信息、图片拼图；需要 Python 和 ImageMagick） |
 
 ## 附带工具

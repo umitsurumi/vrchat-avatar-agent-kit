@@ -35,6 +35,18 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 6. **Clean up:** destroy clones, close preview scenes, reactivate the source. **Done when** no leftover objects remain and the scene is saved or left exactly as the user had it.
 7. **Hand over to the in-game test.** List what only the client can show: physics feel, contacts, other players' view.
 
+## After an outfit change
+
+Putting an outfit on with Modular Avatar is quick; what costs time is the cleanup after it. Before calling an outfit change done, check on a bake:
+
+- **Body under the outfit:** the shrink or hide shape keys are set (the outfit's own, or the base's `Shrink_*` keys), and any skin that pokes through at the joints is caught in a pose test. Underwear the outfit always covers goes EditorOnly. Toggled underwear stays toggled.
+- **Toggles:** each one sits beside what it switches, never inside it, and any Bone Proxy is on the toggled root. The menu map of the bake (BAKE.md) shows every toggle driving what it should.
+- **The outfit's own components:** its Shape Changers and Material Setters target paths that exist on this avatar (outfits made for another base can point at nothing). Its PhysBones and colliders don't duplicate the hair's or the body's.
+- **Renderers:** new renderers are covered by any per-renderer animation the avatar already has (lighting or material curves, light-setting clips). Their MA Mesh Settings match the rest, so the meshes still merge. Removed or renamed renderers leave no dangling curves.
+- **Derived assets:** anything generated from the old outfit is regenerated, e.g. a hidden-body mask or a follow-body weight copy.
+- **Looks:** render front, back, side and a close-up of the seams, arms down. For anything below the waist, add sitting and leg poses (TEST.md).
+- **The record:** the project's notes say which outfit is on, where it came from, and which toggles exist.
+
 ## Reference
 
 - [BAKE.md](BAKE.md): before baking, measuring or reading the menu and FX of what gets uploaded.

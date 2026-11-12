@@ -54,6 +54,7 @@ skills 在 `.claude/skills/` 下（`.agents/skills` 是指向它的链接，给 
 
 - `vrchat-avatar-unity`：在 Unity 里操作头像的基础。烘焙检查、渲染、测试、上传。
 - `vrchat-pc-good`：把头像做到 PC Good（绿模）。
+- `vrchat-expressions`：捏脸、FaceEmo 表情、妆容和 MMD 世界兼容。
 - `booth-research`：Booth 选购调研，看过图再推荐。
 
 不支持 skill 的 agent：任务对上某个 skill 的 `description` 时，读它的 `SKILL.md` 照做。

@@ -109,6 +109,8 @@ if (was is bool && !(bool)was) { UnityEditor.SceneManagement.EditorSceneManager.
 return "cleaned, not saved (scene had unsaved changes before the bake)";
 ```
 
+**After saving, `git diff` the scene file.** A read-only session should leave no diff; when it does, see GOTCHAS (read-only code can still change the scene).
+
 **To prove a dirty scene holds no real change** without saving over it, save a copy outside `Assets` and diff it against the scene file:
 
 ```csharp
