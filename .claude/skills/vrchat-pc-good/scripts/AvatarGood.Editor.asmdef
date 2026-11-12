@@ -1,0 +1,22 @@
+{
+    "name": "AvatarGood.Editor",
+    "rootNamespace": "AvatarGood.Editor",
+    "references": [
+        "com.anatawa12.avatar-optimizer.runtime",
+        "com.anatawa12.avatar-optimizer.internal.prefab-safe-set",
+        "nadena.dev.modular-avatar.core",
+        "Meshia.MeshSimplification.Runtime",
+        "Meshia.MeshSimplification.Ndmf.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
