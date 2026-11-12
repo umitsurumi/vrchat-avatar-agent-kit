@@ -17,6 +17,9 @@
 /[Uu]serSettings/
 /[Bb]lender[Ll]ogs/
 
+# Claude Code per-user settings
+.claude/settings.local.json
+
 # IDE
 .idea/
 .vscode/

@@ -10,11 +10,15 @@ VRChat Avatar 改模用的 Git 配置和个人工具。[ALCOM](https://vrc-get.a
    ```text
    .gitignore
    .gitattributes
+   AGENTS.md
+   CLAUDE.md
+   .claude/skills/
+   .agents/skills            （指向 .claude/skills 的链接）
    Assets/Editor/SetAllWriteDefaultsOn.cs
    Assets/_USER/.gitkeep
    ```
 
-   `Assets/` 按目录合并；如果已有 Git 配置，合并对应规则。注意显示隐藏文件，以便复制两个点开头的配置文件。本仓库的 `.git/` 不复制，每个改模项目单独建立 Git 仓库。
+   `Assets/` 按目录合并；如果已有 Git 配置，合并对应规则。注意显示隐藏文件，以便复制点开头的文件和目录。`.agents/skills` 是软链接，用 `cp -a` 复制才能保留；丢了也不影响 Claude Code，AGENTS.md 里写了 skills 的位置。本仓库的 `.git/` 不复制，每个改模项目单独建立 Git 仓库。
 
 3. 在 Unity 中打开项目，导入基础模型，等待导入完成并保存场景。Unity 会自动生成 `.meta`，与资源一起保留。
 4. 在新项目根目录执行，建立改模前的存档：
@@ -58,5 +62,21 @@ git commit -m "tweak: 调整衣服材质"
 - 资源及其 `.meta`、工程设置和依赖清单一起提交；模型、贴图等按配置进入 LFS。
 - Unity 缓存和 ALCOM 安装的包目录会被忽略。回退涉及依赖版本时，需要再通过 ALCOM 恢复对应版本的包。
 - 回退文件前先关闭 Unity，完成后重新打开，让 Unity 重新导入。
+
+## 配合 agent 使用
+
+`AGENTS.md` 是给 Codex、Claude Code 等 agent 的工作规则：资产怎么改、怎么提交、分支和 tag、上传前确认。`CLAUDE.md` 只有一行 `@AGENTS.md`，让 Claude Code 读到同一份规则。按项目习惯修改 `AGENTS.md` 即可。
+
+`.claude/skills/` 下的 skills：
+
+| skill | 用途 |
+| --- | --- |
+| `vrchat-avatar-unity` | 通过 MCP for Unity 操作打开着的 Unity：烘焙检查、渲染截图、测试、上传 |
+| `vrchat-pc-good` | 把头像做到 PC Good（绿模），附参考脚本 |
+| `booth-research` | Booth 选购调研，附 `booth.py`（搜索、商品信息、图片拼图） |
+
+前两个需要在 Unity 里装 [MCP for Unity](https://github.com/CoplayDev/unity-mcp)。
+
+## 附带工具
 
 附带的 WD 工具按需手动使用：在 Project 窗口选中 Animator Controller，点击 `Tools > Animator > Set ALL Write Defaults ON`，将该控制器内所有状态的 Write Defaults 设为 ON。
