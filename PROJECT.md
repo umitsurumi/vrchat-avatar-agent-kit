@@ -1,42 +1,42 @@
 # PROJECT.md
 
 <!--
-这个项目的基本事实。第一次会话时，agent 和用户一起填好；之后有变化就更新。
-填好后可以删掉这段注释和每节下的提示。
-正在进行的工作写在 HANDOFF-<主题>.md，不写在这里。
+The basic facts of this project. The agent fills this in with the user in the first session and keeps it up to date.
+Write it in the user's language. Once filled in, delete this comment and the hints under each heading.
+Work in progress goes in HANDOFF-<topic>.md, not here.
 -->
 
-## 基础模型
+## Base model
 
-- 模型：<!-- 名称、版本、Booth 链接 -->
-- 场景：<!-- 例如 Assets/_USER/Main.unity -->
-- 头像根物体：<!-- Hierarchy 里带 VRC Avatar Descriptor 的物体名 -->
-- 着色器：<!-- 例如 lilToon -->
+- Model: <!-- name, version, Booth link -->
+- Scene: <!-- e.g. Assets/_USER/Main.unity -->
+- Avatar root: <!-- the Hierarchy object with the VRC Avatar Descriptor -->
+- Shader: <!-- e.g. lilToon -->
 
-## 工具和约定
+## Tools and conventions
 
-<!-- 包和版本以 Packages/vpm-manifest.json 为准。这里写用途和用法上的约定，例如：
-     衣服用 Modular Avatar 穿；表情用 FaceEmo；编辑器脚本放 Assets/_USER/Editor。 -->
+<!-- Packages and versions: see Packages/vpm-manifest.json. Write down how they are used here, e.g.
+     outfits go on with Modular Avatar; expressions are made with FaceEmo; editor scripts live in Assets/_USER/Editor. -->
 
-## 头像
+## Avatars
 
-| 分支 | 头像名 | 蓝图 ID | 状态和评级 | 最新 tag |
+| Branch | Avatar name | Blueprint ID | Status and rank | Latest tag |
 | --- | --- | --- | --- | --- |
 | `main` | | | | |
 
-## 服装和配件
+## Outfits and accessories
 
-| 部件 | 来源（Booth 链接） | 用在哪个分支 | 备注 |
+| Part | Source (Booth link) | Used on branch | Notes |
 | --- | --- | --- | --- |
 | | | | |
 
-## 方向和禁忌
+## Direction and no-go areas
 
-- 想要的感觉：<!-- 风格、角色设定、参考图放在哪里 -->
-- 不能动的：<!-- 例如：脸、某件招牌衣服 -->
-- 性能目标：<!-- 例如：PC Good；或者不限 -->
+- The look we want: <!-- style, character, where the reference images are -->
+- Not to be changed: <!-- e.g. the face, a signature outfit -->
+- Performance target: <!-- e.g. PC Good, or none -->
 
-## 用户习惯
+## The user
 
-- 交流语言：
-- 其他：<!-- 例如：每一步做完先给看渲染图再继续 -->
+- Language:
+- Other: <!-- e.g. show a render after every step before going on -->

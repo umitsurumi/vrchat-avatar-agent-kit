@@ -1,60 +1,84 @@
 # AGENTS.md
 
-这是一个 VRChat Avatar 改模工程：ALCOM 管理项目和依赖，Git 记录改模过程。初始化步骤、需要安装的软件和提交类型见 [README.md](README.md)，这里只写给 agent 的规则。
+This is a VRChat avatar modding project. ALCOM creates the project and manages its packages; Git records every step, so any change can be undone. These are the rules for agents working here. They come from [vrchat-avatar-agent-kit](https://github.com/umitsurumi/vrchat-avatar-agent-kit); the installed version is in `.avatar-kit-version`.
 
-## 开工前
+Talk to the user in their language, and write `PROJECT.md`, `HANDOFF-*.md` and commit messages in it too. These rules and the skills are in English; that does not change the language you use with the user.
 
-1. **读 [PROJECT.md](PROJECT.md)。** 如果还是空模板，只有占位说明，先和用户一起填好再动手：基础模型、场景、头像根物体、方向和禁忌。能从项目里查到的自己查，查不到的再问。
-2. **检查环境。** 缺什么就告诉用户 README「准备」一节里的装法。系统软件不自己装，ALCOM 的包清单不自己改。
-   - `git --version`、`git lfs version` 都能用；
-   - 项目是 Git 仓库，并且执行过 `git lfs install --local`（`.git/hooks/pre-push` 里有 `git lfs`）。还没有初始存档的话，问过用户后按 README 第 4 步做；
-   - Unity 连上了：MCP for Unity 的工具可用，而且当前打开的场景属于这个项目。连着别的项目就停下，告诉用户，什么都不在那边执行；
-   - 这次要用的 VPM 包在 `Packages/vpm-manifest.json` 里。缺的请用户在 ALCOM 里装。
-3. **读进行中的 `HANDOFF-*.md`**，如果有的话。
+## Before starting
 
-## 资产
+1. **Read [PROJECT.md](PROJECT.md).** If it still holds only placeholders, fill it in with the user before any work: base model, scene, avatar root, direction and no-go areas. Look up what the project can tell you; ask for the rest.
+2. **Check the environment.**
+   - Run `uv --version`. If uv is missing, stop and give the user its install command: Windows `winget install --id=astral-sh.uv -e`, macOS and Linux `curl -LsSf https://astral.sh/uv/install.sh | sh`.
+   - Run `uv run Tools/avatar-kit/doctor.py`. It checks Git, Git LFS, the Unity version and the packages, and says how to fix anything missing. Never install system software or edit the package manifests yourself: pass the instructions on to the user (packages are installed in ALCOM).
+   - Doctor can't see Unity. Check that the MCP for Unity tools respond and that the open scene belongs to this project. If they are connected to another project, stop and tell the user; run nothing there.
+   - If the project has no commits yet, ask the user, then: `git init`, `git lfs install --local`, `git add .`, review `git status`, and commit `checkpoint: <initial state, in the user's language>`.
+3. **Read any `HANDOFF-*.md`** in progress.
 
-- 厂商资源（购买的模型、衣服、头发、插件）只读。要改就复制到 `Assets/_USER/`，改副本，再让 Avatar 引用副本。场景里预制体实例的 override 可以直接改。
-- 贴图每次都用脚本从原图重新生成，不在上一版输出上继续改，反复改会积累瑕疵。生成脚本放在仓库里，不放临时目录。
-- 生成的网格、遮罩、材质放在 `Assets/_USER/`。覆盖已有资源时保持原 GUID。
+## Assets
 
-## 提交
+- Vendor assets (purchased models, outfits, hair, tools) are read-only. To change one, copy it into `Assets/_USER/`, change the copy, and point the avatar at the copy. Overrides on prefab instances in the scene are fine.
+- Textures are always regenerated from the untouched original by a recipe, never edited on top of an earlier output: repeated edits pile up artifacts. Recipes and their inputs live in `TextureSources/<texture>/`, outputs go to `Assets/_USER/`. An image made with an image model is committed there as a fixed input, with the model, prompt and date in the recipe; never feed an output back into the model. See skill `vrchat-textures`.
+- Generated meshes, masks and materials go in `Assets/_USER/`. When overwriting an existing asset, keep its GUID.
+- Scripts that generate assets are kept in the repo, never only in a temp folder.
 
-- 用户说提交才提交。一次提交只做一件能单独撤销的事，说明用 `类型: 改动说明`，类型见 README。
-- 资源和 `.meta` 一起提交。提交前看 `git diff --cached --stat` 和 `git lfs ls-files`，确认模型和贴图走了 LFS。
-- 工具或构建自动改写的文件不提交，除非用户要。例如被插件切换的 `ProjectSettings/` 项、lilToon 构建时改写的 `ProjectSettings/lilToonSetting.json`。用户自己没有跟踪的目录（参考图之类）也不碰。
-- 推送到远程前先问。
+## Commits
 
-## 分支和 tag
+- Commit only when the user says so. One commit does one thing that can be undone on its own. The message is `type: description`:
 
-- `main` 是基础形象。要另做一个头像（换整套衣服、换风格），就开一个以头像简称命名的分支，从一个 tag 拉出来，不从半成品拉。
-- 新分支第一件事：清空根物体 `PipelineManager` 上的蓝图 ID，否则上传会覆盖原来的头像。
-- 上传后用户认可的版本，打 annotated tag（如 `<分支>-v1`），说明里写头像名、蓝图 ID 和关键数字（评级、面数）。
-- 分支之间共用的脚本和资源，用 `git checkout <分支> -- <路径>` 拿过来。场景文件不能 cherry-pick（对象 ID 对不上），要在目标分支上重新运行工具。
-- Unity 开着时切分支：先打开一个空场景，切换，刷新，再打开场景。
+  | type | for |
+  | --- | --- |
+  | `import` | importing third-party assets, tools, models |
+  | `asset` | generating, converting or changing actual assets |
+  | `config` | avatar, MA, menu, parameter and animator setup |
+  | `tweak` | looks, materials, positions, body shape |
+  | `fix` | bugs, clipping, bones, animation problems |
+  | `refactor` | reorganising without changing the result |
+  | `chore` | Git, Unity project settings, package upgrades |
+  | `checkpoint` | a milestone snapshot |
+  | `docs` | documents |
+
+- Commit assets together with their `.meta`. Before committing, read `git diff --cached --stat` and `git lfs ls-files`: models and textures must go through LFS.
+- Don't commit files that tools or builds rewrite on their own unless the user wants them, e.g. `ProjectSettings/` entries flipped by a plugin, or `ProjectSettings/lilToonSetting.json` rewritten by lilToon at build time. Leave folders the user keeps untracked on purpose (reference images and such) alone.
+- Ask before pushing to a remote.
+
+## Branches and tags
+
+- `main` is the base look. Another avatar (a whole new outfit, a different style) gets its own branch named after it, made from a tag, never from work in progress.
+- First thing on a new branch: clear the blueprint ID on the root's `PipelineManager`, or the upload overwrites the original avatar.
+- When the user accepts an uploaded version, make an annotated tag (e.g. `<branch>-v1`) whose message gives the avatar name, the blueprint ID and the key numbers (rank, triangles).
+- Scripts and assets shared between branches are brought over with `git checkout <branch> -- <path>`. Scene files can't be cherry-picked (object IDs won't match): run the tools again on the target branch.
+- Switching branches with Unity open: open an empty scene, switch, refresh, then open the scene again. To restore files from history, close Unity first and reopen it afterwards so it reimports.
 
 ## Unity
 
-- 用户可能同时在改同一个场景。保存前先检查 `scene.isDirty`，有不是自己做的改动就先问。
-- 判断改动的效果，看 NDMF 烘焙后的副本，不看场景里的原物体。做法见 skill `vrchat-avatar-unity`。
-- 看起来对不对，要渲染出来看过才算数。游戏里才能确认的（物理手感、别人眼里的样子），交给用户在游戏里测。
+- The user may be editing the same scene. Before saving, check `scene.isDirty`; if there are changes you didn't make, ask first.
+- Judge a change on the NDMF-baked copy, not the scene object. How: skill `vrchat-avatar-unity`.
+- A look only counts once it has been rendered and seen. What can only be confirmed in game (how physics feels, how others see it) goes to the user to test in VRChat.
 
-## 上传
+## Upload
 
-- 每次上传都先问：新建一个头像，还是覆盖哪一个；名字；保持私有。
+- Before every upload ask: a new avatar or overwrite which one; the name; keep it private.
 
-## 交接文档
+## Notes
 
-- 长期不变的事实（模型、头像和蓝图 ID、服装来源、方向和禁忌）写进 `PROJECT.md`，有变化就更新。
-- 每个主题一份 `HANDOFF-<主题>.md`，放在仓库根目录，用用户的语言写：数字、用户的决定、踩过的坑。每完成一步就更新。
+- Facts that rarely change (model, avatars and blueprint IDs, outfit sources, direction and no-go areas) go in `PROJECT.md`; update it when they change.
+- Each topic in progress gets a `HANDOFF-<topic>.md` at the repo root: the numbers, the user's decisions, the pitfalls hit. Update it after every step.
+
+## Tools
+
+- `Tools/avatar-kit/doctor.py`: environment check (`--json` for a machine-readable result).
+- `Tools/avatar-kit/texture_kit/`: texture recipes (mask, makeup PSD, re-tone, recolor, crop and place for image-model redraws). Driven by skill `vrchat-textures`.
+- `Assets/AvatarAgentKit/Editor/`: Unity menu `Tools/Avatar Agent Kit` (UV triangle export for texture masks, Set All Write Defaults ON).
 
 ## Skills
 
-skills 在 `.claude/skills/` 下（`.agents/skills` 是指向它的链接，给 Codex 用）：
+Skills live in `.claude/skills/` (`.agents/skills` links to it for Codex):
 
-- `vrchat-avatar-unity`：在 Unity 里操作头像的基础。烘焙检查、渲染、测试、上传。
-- `vrchat-pc-good`：把头像做到 PC Good（绿模）。
-- `vrchat-expressions`：捏脸、FaceEmo 表情、妆容和 MMD 世界兼容。
-- `booth-research`：Booth 选购调研，看过图再推荐。
+- `vrchat-avatar-unity`: the base for avatar work in Unity: bake and inspect, render, test, menus and toggles, upload.
+- `vrchat-outfits`: putting on an outfit with Modular Avatar and cleaning up after it.
+- `vrchat-textures`: texture recipes, makeup, recolouring, redrawing with an image model, lilToon materials.
+- `vrchat-expressions`: face shaping, FaceEmo expressions, MMD-world compatibility.
+- `vrchat-pc-good`: taking an avatar to PC Good (a performance rank).
+- `booth-research`: researching items on Booth; look at every image before recommending.
 
-不支持 skill 的 agent：任务对上某个 skill 的 `description` 时，读它的 `SKILL.md` 照做。
+Agents without skill support: when a task matches a skill's `description`, read its `SKILL.md` and follow it.
