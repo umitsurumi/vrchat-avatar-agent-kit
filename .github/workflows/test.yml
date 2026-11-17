@@ -16,4 +16,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
       - name: Tests
-        run: uv run --python ${{ matrix.python }} --with pytest pytest tests -q
+        run: uv run --python ${{ matrix.python }} --with-requirements tests/requirements.txt pytest tests -q
+      - name: Texture kit runs through its uv script metadata
+        run: uv run --python ${{ matrix.python }} Tools/avatar-kit/texture-kit.py --help

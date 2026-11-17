@@ -104,7 +104,7 @@ agent 通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 操作打�
 ## 工具
 
 - **环境检查**：`uv run Tools/avatar-kit/doctor.py` 列出装了什么、缺的怎么装（给 agent 用 `--json`）。它自己不安装任何东西。
-- **texture kit**：一张贴图由 `TextureSources/<贴图名>/recipe.json` 里的配方描述：原图、输出和处理步骤（UV 遮罩、妆容 PSD、重新调色、改色、为生图模型重画准备的 crop 和 place）。每次运行都从原图开始，输出永远不会被再次加工，瑕疵不会累积。详见 skill `vrchat-textures`。
+- **texture kit**（`uv run Tools/avatar-kit/texture-kit.py --help`）：一张贴图由 `TextureSources/<贴图名>/recipe.json` 里的配方描述：原图、输出和处理步骤（UV 遮罩、妆容 PSD、重新调色、改色、为生图模型重画准备的 crop 和 place）。每次运行都从原图开始，输出永远不会被再次加工，瑕疵不会累积。详见 skill `vrchat-textures`。
 - **Unity 菜单** `Tools/Avatar Agent Kit`：导出 UV 三角形，用来做贴图遮罩；把选中的 Animator Controller 里所有状态的 Write Defaults 设为 ON。
 
 ## 在改模项目里用 Git
@@ -149,7 +149,7 @@ git commit -m "tweak: 调整衣服材质"
 测试在 `tests/` 下，不会装进项目：
 
 ```sh
-uv run --with pytest pytest tests
+uv run --with-requirements tests/requirements.txt pytest tests
 ```
 
 CI 在 Ubuntu 和 Windows 上运行它们。Unity 端的 C# 在 Unity 里手动测试，每个脚本的文件头写明在什么上验证过。

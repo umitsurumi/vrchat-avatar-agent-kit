@@ -104,7 +104,7 @@ The kit has two tiers:
 ## Tools
 
 - **Environment check**: `uv run Tools/avatar-kit/doctor.py` prints a table of what is installed and how to install what is missing (`--json` for agents). It never installs anything itself.
-- **Texture kit**: a texture is described by a recipe in `TextureSources/<texture>/recipe.json`: the original, the output, and the steps (UV masks, makeup PSDs, re-toning, recolouring, crop and place for image-model redraws). Every run starts from the untouched original, so an output is never edited again and artifacts don't pile up. Details: skill `vrchat-textures`.
+- **Texture kit** (`uv run Tools/avatar-kit/texture-kit.py --help`): a texture is described by a recipe in `TextureSources/<texture>/recipe.json`: the original, the output, and the steps (UV masks, makeup PSDs, re-toning, recolouring, crop and place for image-model redraws). Every run starts from the untouched original, so an output is never edited again and artifacts don't pile up. Details: skill `vrchat-textures`.
 - **Unity menu** `Tools/Avatar Agent Kit`: exports UV triangles for texture masks; sets Write Defaults ON on every state of the selected Animator Controller.
 
 ## Git in your avatar project
@@ -149,7 +149,7 @@ git commit -m "tweak: adjust the outfit material"
 Tests live in `tests/` and are not installed into projects:
 
 ```sh
-uv run --with pytest pytest tests
+uv run --with-requirements tests/requirements.txt pytest tests
 ```
 
 CI runs them on Ubuntu and Windows. The Unity-side C# is tested by hand in Unity; each script's header says what it was verified on.

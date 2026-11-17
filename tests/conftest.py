@@ -1,4 +1,4 @@
-"""Shared helpers. Run the tests with: uv run --with pytest pytest tests"""
+"""Shared helpers. Run the tests with: uv run --with-requirements tests/requirements.txt pytest tests"""
 
 from __future__ import annotations
 
