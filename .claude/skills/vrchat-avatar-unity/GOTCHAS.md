@@ -14,10 +14,10 @@ Each one cost real time on a real avatar, unless it is marked as coming from som
 ## Unity editor
 
 - **Compiled editor scripts need an asmdef** to reach AAO, MA or Meshia types: their assemblies are not autoReferenced. List them under `references`.
-- **Compile-check without the editor** (Unity busy, or another project open). Use the Roslyn bundled with the editor and the response file Unity wrote for an asmdef the last time it compiled. Drop that file's source, `-out`, `-refout` and analyzer lines and keep its `-r:` references:
+- **Compile-check without the editor** (Unity busy, or another project open). Use the Roslyn bundled with the editor and the response file Unity wrote for an asmdef the last time it compiled. Drop that file's source, `-out`, `-refout` and analyzer lines and keep its `-r:` references. Shown for a POSIX shell (on Windows: Git Bash, which comes with Git for Windows, and `dotnet.exe`):
 
   ```sh
-  D=<Unity>/Editor/Data        # e.g. ~/Unity/Hub/Editor/2022.3.22f1/Editor/Data
+  D=<Unity>/Editor/Data        # e.g. ~/Unity/Hub/Editor/2022.3.22f1/Editor/Data, or C:/Program Files/Unity/Hub/Editor/2022.3.22f1/Editor/Data
   cd <project>                 # the rsp paths are relative to it
   grep -vE '\.cs"$|^-out:|^-refout:|^-analyzer|^-additionalfile|^-generatedfilesout' Library/Bee/artifacts/*/<Asm>.rsp > /tmp/base.rsp
   "$D/NetCoreRuntime/dotnet" "$D/DotNetSdkRoslyn/csc.dll" /noconfig @/tmp/base.rsp -out:/tmp/check.dll Scripts/*.cs

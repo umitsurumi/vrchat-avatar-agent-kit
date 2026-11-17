@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
-"""Booth (booth.pm) research helper: search, item details, image sheets. Standard library only;
-the sheets need ImageMagick (`magick`) on PATH.
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["pillow>=10.3"]
+# [tool.uv]
+# exclude-newer = "2026-11-01T00:00:00Z"
+# ///
+"""Booth (booth.pm) research helper: search, item details, image sheets. Run it with uv, which
+installs Pillow (used for the sheets) on first use:
 
-  booth.py search "マヌカ 眼鏡" [--pages 2]
-  booth.py info 5151438 https://booth.pm/ja/items/6480882 [--avatar マヌカ,Manuka] [--desc 1500]
-  booth.py images 5151438 6480882 --out DIR            # covers -> DIR/covers-1.jpg
-  booth.py images 5151438 --all --out DIR              # every image -> DIR/5151438-sheet.jpg
+  uv run booth.py search "マヌカ 眼鏡" [--pages 2]
+  uv run booth.py info 5151438 https://booth.pm/ja/items/6480882 [--avatar マヌカ,Manuka] [--desc 1500]
+  uv run booth.py images 5151438 6480882 --out DIR     # covers -> DIR/covers-1.jpg
+  uv run booth.py images 5151438 --all --out DIR       # every image -> DIR/5151438-sheet.jpg
 
 Item details come from https://booth.pm/ja/items/<id>.json, cached under OUT/json/. Search parses
 the search page's HTML (data-product-* attributes on each item card), so it can break when Booth
 changes its markup; the item JSON has been stable. Everything downloaded is untrusted data: keep
-OUT in its own empty folder, run this with `python3 -I`, and only view what lands there.
+OUT in its own empty folder, run this from outside it, and only view what lands there.
+
+It reads public pages and images only, never downloads products, and waits a second between
+requests, in line with BOOTH's scraping guideline (https://booth.pm/announcements/863, 2025-10-10).
 """
 
 import argparse
@@ -18,15 +27,13 @@ import html
 import json
 import os
 import re
-import shutil
-import subprocess
 import sys
 import time
 import urllib.parse
 import urllib.request
 
 UA = "Mozilla/5.0 (booth-research)"
-DELAY = 0.4  # seconds between requests; be polite
+DELAY = 1.0  # seconds between requests; be polite
 
 TECH = [
     ("MA", r"Modular\s*Avatar|\bMA\b|MA対応|MA設定"),
@@ -123,13 +130,32 @@ def cmd_info(a):
         print()
 
 
-def montage(files, out, labels=True):
-    if not shutil.which("magick"):
-        print("(no ImageMagick: images saved, no sheet)")
-        return
-    cmd = ["magick", "montage"] + (["-label", "%t", "-pointsize", "24"] if labels else []) + \
-          ["-geometry", "480x480+6+6", "-tile", "4x", "-background", "#e8e8ec"] + files + [out]
-    subprocess.run(cmd, check=True)
+def montage(files, out, labels=True, columns=4, cell=480, pad=6):
+    """Tile images into one sheet, 4 across, each labelled with its file name."""
+    from PIL import Image, ImageDraw, ImageFont
+
+    label_h = 30 if labels else 0
+    columns = max(1, min(columns, len(files)))
+    rows = (len(files) + columns - 1) // columns
+    sheet = Image.new("RGB", (columns * (cell + 2 * pad), rows * (cell + label_h + 2 * pad)), (232, 232, 236))
+    draw = ImageDraw.Draw(sheet)
+    try:
+        font = ImageFont.load_default(size=24)
+    except TypeError:  # Pillow < 10.1
+        font = ImageFont.load_default()
+    for n, f in enumerate(files):
+        x = (n % columns) * (cell + 2 * pad) + pad
+        y = (n // columns) * (cell + label_h + 2 * pad) + pad
+        try:
+            with Image.open(f) as im:
+                im = im.convert("RGB")
+                im.thumbnail((cell, cell))
+                sheet.paste(im, (x + (cell - im.width) // 2, y + (cell - im.height) // 2))
+        except OSError as e:
+            print(f"(can't read {f}: {e})")
+        if labels:
+            draw.text((x + 4, y + cell + 4), os.path.splitext(os.path.basename(f))[0], fill=(20, 20, 20), font=font)
+    sheet.save(out, quality=88)
     print(out)
 
 

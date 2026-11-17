@@ -44,3 +44,33 @@ def uv_overlay(original: np.ndarray, box, tris, path: Path) -> None:
             draw.line(pts + [pts[0]], fill=WIRE, width=1)
     path.parent.mkdir(parents=True, exist_ok=True)
     im.save(path)
+
+
+def sheet(paths, out: Path, columns: int = 4, cell: int = 480, labels: bool = True) -> str:
+    """Tile images into one sheet (each fitted into a cell, labelled with its file name)."""
+    from PIL import ImageFont
+
+    columns = max(1, min(columns, len(paths)))
+    rows = (len(paths) + columns - 1) // columns
+    label_h = 28 if labels else 0
+    pad = 6
+    canvas = Image.new("RGB", (columns * (cell + 2 * pad), rows * (cell + label_h + 2 * pad)), (232, 232, 236))
+    try:
+        font = ImageFont.load_default(size=20)
+    except TypeError:  # Pillow < 10.1
+        font = ImageFont.load_default()
+    draw = ImageDraw.Draw(canvas)
+    for i, p in enumerate(paths):
+        with Image.open(p) as im:
+            im = im.convert("RGBA")
+            im.thumbnail((cell, cell))
+            tile = Image.new("RGB", im.size, (232, 232, 236))
+            tile.paste(im, mask=im.getchannel("A"))
+        x = (i % columns) * (cell + 2 * pad) + pad
+        y = (i // columns) * (cell + label_h + 2 * pad) + pad
+        canvas.paste(tile, (x + (cell - tile.width) // 2, y + (cell - tile.height) // 2))
+        if labels:
+            draw.text((x + 4, y + cell + 4), Path(p).stem, fill=(20, 20, 20), font=font)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    canvas.save(out)
+    return str(out)

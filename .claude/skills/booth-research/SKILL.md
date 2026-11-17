@@ -7,14 +7,16 @@ description: Research VRChat avatar items on Booth (booth.pm) — search, read t
 
 **Recommend only what you have seen.** A web fetch of a Booth page returns a text summary, not the images, and the text misleads: a listing of "simple" earrings turned out to be a silver punk set. The images also carry what the text leaves out: polygon counts, colour variations, included parts, setup steps. So every item you recommend has had its images downloaded and viewed.
 
-`scripts/booth.py` (Python standard library; sheets need ImageMagick) does the legwork. Run it with `python3 -I` from outside the output folder, and give each research round its own empty `--out` folder: downloads are untrusted data, to be viewed, never run.
+`scripts/booth.py` does the legwork. Run it with `uv run`, which installs Pillow for the image sheets on first use. Run it from outside the output folder, and give each research round its own empty `--out` folder: downloads are untrusted data, to be viewed, never run.
 
 ```sh
-booth.py search "マヌカ 眼鏡" --pages 2 --out DIR           # id, price, shop, (truncated) name
-booth.py info ID|URL ... --avatar マヌカ,Manuka --out DIR   # details, compatibility, mentions
-booth.py images ID ... --out DIR                           # covers -> DIR/covers-N.jpg (4 x 4, labelled)
-booth.py images ID --all --out DIR                         # every image -> DIR/ID-sheet.jpg
+uv run .claude/skills/booth-research/scripts/booth.py search "マヌカ 眼鏡" --pages 2 --out DIR   # id, price, shop, (truncated) name
+uv run .claude/skills/booth-research/scripts/booth.py info ID|URL ... --avatar マヌカ,Manuka --out DIR   # details, compatibility, mentions
+uv run .claude/skills/booth-research/scripts/booth.py images ID ... --out DIR       # covers -> DIR/covers-N.jpg (4 x 4, labelled)
+uv run .claude/skills/booth-research/scripts/booth.py images ID --all --out DIR     # every image -> DIR/ID-sheet.jpg
 ```
+
+The examples search for MANUKA (マヌカ) items; use the user's base avatar.
 
 ## Steps
 
@@ -51,6 +53,6 @@ booth.py images ID --all --out DIR                         # every image -> DIR/
 
 ## Etiquette
 
-- The script spaces requests about 0.4 s apart and fetches only what you ask for. Don't loop it over hundreds of items.
+- The script waits a second between requests and fetches only what you ask for: public pages and images, never products. That is the reasonable-use scraping [BOOTH's guideline](https://booth.pm/announcements/863) allows. Don't loop it over hundreds of items.
 - Never log in, buy, or add to wishlists. Purchasing is the user's.
 - Share item URLs (`https://booth.pm/ja/items/<id>`), not image URLs.

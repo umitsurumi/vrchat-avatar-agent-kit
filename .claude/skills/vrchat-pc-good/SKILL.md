@@ -1,6 +1,6 @@
 ---
 name: vrchat-pc-good
-description: Take a VRChat avatar to PC Good (绿模) with measured, user-approved cuts. Use when the user wants an avatar at PC Good / 绿模 / a performance rank, asks whether one can reach Good, or plans its PhysBone, triangle or material budget.
+description: Take a VRChat avatar to PC Good (绿模) with measured, user-approved cuts — triangles, PhysBones, material slots, skinned meshes. Use when the user wants an avatar at PC Good / 绿模 / a better performance rank, asks why it is Poor or Very Poor or whether it can reach Good, wants it lighter or optimized, or plans its PhysBone, triangle or material budget.
 ---
 
 # VRChat PC Good (绿模)

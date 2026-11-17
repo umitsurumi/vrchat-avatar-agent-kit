@@ -105,6 +105,7 @@ The kit has two tiers:
 
 - **Environment check**: `uv run Tools/avatar-kit/doctor.py` prints a table of what is installed and how to install what is missing (`--json` for agents). It never installs anything itself.
 - **Texture kit** (`uv run Tools/avatar-kit/texture-kit.py --help`): a texture is described by a recipe in `TextureSources/<texture>/recipe.json`: the original, the output, and the steps (UV masks, makeup PSDs, re-toning, recolouring, crop and place for image-model redraws). Every run starts from the untouched original, so an output is never edited again and artifacts don't pile up. Details: skill `vrchat-textures`.
+- **Render sheets**: `uv run Tools/avatar-kit/texture-kit.py sheet <images> --out sheet.png` tiles screenshots into one labelled image for checking.
 - **Unity menu** `Tools/Avatar Agent Kit`: exports UV triangles for texture masks; sets Write Defaults ON on every state of the selected Animator Controller.
 
 ## Git in your avatar project

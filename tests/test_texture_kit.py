@@ -213,6 +213,16 @@ def test_place_uses_the_regions_mask_and_bleeds_into_padding(tmp_path):
     assert (out[:, 7, :3] == 10).all()
 
 
+def test_place_flip(tmp_path):
+    gen = solid(1, 2, (0, 0, 0))
+    gen[0, 0, :3] = (255, 0, 0)  # red on the left
+    write_rgba(tmp_path / "gen.png", gen)
+    out = ops.place(solid(1, 2, (9, 9, 9)), {"image": "gen.png", "box": [0, 0, 2, 1], "flip": "x"}, Masks(), tmp_path, {})
+    assert tuple(out[0, 1, :3]) == (255, 0, 0) and tuple(out[0, 0, :3]) == (0, 0, 0)
+    with pytest.raises(ops.StepError, match="flip"):
+        ops.place(solid(1, 2, (9, 9, 9)), {"image": "gen.png", "box": [0, 0, 2, 1], "flip": "z"}, Masks(), tmp_path, {})
+
+
 def test_place_errors(tmp_path):
     with pytest.raises(ops.StepError, match="region"):
         ops.place(solid(2, 2, (0, 0, 0)), {"image": "x.png", "region": "eyes"}, Masks(), tmp_path, {})
@@ -444,3 +454,13 @@ def test_cli_mask_and_apply(project, tmp_path):
 def test_cli_reports_errors(project):
     p = kit("run", str(project / "missing.json"))
     assert p.returncode == 1 and "texture-kit:" in p.stderr
+
+
+def test_cli_sheet(project, tmp_path):
+    a, b = tmp_path / "a.png", tmp_path / "b.png"
+    write_rgba(a, solid(100, 50, (255, 0, 0)))
+    write_rgba(b, solid(50, 100, (0, 0, 255)))
+    p = kit("sheet", str(a), str(b), "--out", str(tmp_path / "s.png"), "--columns", "2", "--cell", "64")
+    assert p.returncode == 0, p.stderr
+    s = read_rgba(tmp_path / "s.png")
+    assert s.shape[1] == 2 * (64 + 12) and (s[..., 0] == 255).any() and (s[..., 2] == 255).any()

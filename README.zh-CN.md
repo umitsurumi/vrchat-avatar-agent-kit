@@ -105,6 +105,7 @@ agent 通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 操作打�
 
 - **环境检查**：`uv run Tools/avatar-kit/doctor.py` 列出装了什么、缺的怎么装（给 agent 用 `--json`）。它自己不安装任何东西。
 - **texture kit**（`uv run Tools/avatar-kit/texture-kit.py --help`）：一张贴图由 `TextureSources/<贴图名>/recipe.json` 里的配方描述：原图、输出和处理步骤（UV 遮罩、妆容 PSD、重新调色、改色、为生图模型重画准备的 crop 和 place）。每次运行都从原图开始，输出永远不会被再次加工，瑕疵不会累积。详见 skill `vrchat-textures`。
+- **渲染拼图**：`uv run Tools/avatar-kit/texture-kit.py sheet <图片> --out sheet.png` 把截图拼成一张带标签的图，方便检查。
 - **Unity 菜单** `Tools/Avatar Agent Kit`：导出 UV 三角形，用来做贴图遮罩；把选中的 Animator Controller 里所有状态的 Write Defaults 设为 ON。
 
 ## 在改模项目里用 Git

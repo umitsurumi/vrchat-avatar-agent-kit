@@ -27,10 +27,10 @@ return "ok";
 
 The camera positions suit an avatar about 1.4 m tall facing +Z; scale them for others.
 
-Tile the shots and view the sheet. Keep sheets in a scratch folder, not under `Assets`:
+Tile the shots into one labelled sheet with the kit, and view it. Keep sheets in a scratch folder, not under `Assets`:
 
 ```sh
-magick montage Temp/shots/{full,back,face}.png -tile 3x1 -geometry +4+4 -background '#d0d4dc' <scratch>/sheet.png
+uv run Tools/avatar-kit/texture-kit.py sheet Temp/shots/full.png Temp/shots/back.png Temp/shots/face.png --columns 3 --out <scratch>/sheet.png
 ```
 
 **Timing:** a blendshape or state change made in edit mode shows only a frame later. Change it in one call and render in the next, or `BakeMesh` into a temporary MeshRenderer and render that.

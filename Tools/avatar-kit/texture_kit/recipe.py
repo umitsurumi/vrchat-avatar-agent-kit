@@ -15,7 +15,7 @@ recipe.json (paths relative to the recipe's folder):
       {"op": "recolor", "mask": "irises", "hue": "#7A8AA0" | degrees, "hue_rotate": deg,
        "chroma": 0.006 | "chroma_scale": 0.35, "lightness_scale": 0.68,
        "where": [{"lightness": [full, zero], "chroma": [full, zero], "hue": [full, zero]}], "force": "<mask>"},
-      {"op": "place", "image": "eyes.generated.png", "region": "eyes", "mask": "<mask>", "bleed": 8,
+      {"op": "place", "image": "eyes.generated.png", "region": "eyes", "mask": "<mask>", "bleed": 8, "flip": "x",
        "source": {"model": "...", "prompt": "...", "date": "YYYY-MM-DD"}}
     ]
   }

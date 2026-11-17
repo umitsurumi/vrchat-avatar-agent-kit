@@ -44,10 +44,16 @@ task.ContinueWith(t => { if (t.IsFaulted) w("TASK FAULTED " + t.Exception.GetBas
 return "upload started for '" + av.ID + "'";
 ```
 
-Poll the log from the shell:
+Poll the log from the shell, in a POSIX shell (Linux, macOS, Git Bash on Windows):
 
 ```sh
 for i in $(seq 1 40); do sleep 10; grep -qE "UPLOAD SUCCESS|ERROR|FAULTED|task done" Temp/upload/status.log && break; done; cat Temp/upload/status.log
+```
+
+or in PowerShell:
+
+```powershell
+foreach ($i in 1..40) { Start-Sleep 10; if (Select-String -Quiet -Path Temp/upload/status.log -Pattern 'UPLOAD SUCCESS|ERROR|FAULTED|task done') { break } }; Get-Content Temp/upload/status.log
 ```
 
 - **Thumbnail:** an update passes `null`; sending the same image again fails with "This file was already uploaded".

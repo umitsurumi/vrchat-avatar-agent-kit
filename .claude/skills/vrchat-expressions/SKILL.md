@@ -1,6 +1,6 @@
 ---
 name: vrchat-expressions
-description: Shape a VRChat avatar's face and build its expressions — face shaping with shape keys, gesture expressions with FaceEmo, makeup, and MMD-world compatibility. Use when the user wants to change the face, make or fix expressions or gestures, or asks why the face misbehaves in MMD worlds.
+description: Shape a VRChat avatar's face and build its expressions — face shaping with shape keys, gesture expressions with FaceEmo, what makeup may touch, and MMD-world compatibility. Use when the user wants to change the face (捏脸), make or fix expressions or gestures (表情), or asks why the face misbehaves in MMD worlds.
 ---
 
 # Face and expressions
@@ -42,9 +42,9 @@ The order is fixed, because each step feeds the next: **shaping → expressions 
 
    **Done when** every row of the table exists as a clip in the menu.
 5. **Review.** Render each expression as a face close-up, all on one labelled sheet. The user judges; change one expression at a time and re-render it beside the old one. **Done when** the user has signed off every expression. See [§Reading faces](#reading-faces).
-6. **Makeup.** Edit the texture from the original with a script, every time.
-   - **Never paint features that move:** lips and lashes painted on the texture don't follow the mouth and eyelid shape keys. On one avatar the painted lips stayed put while the mouth moved, and painted lower lashes showed through closed eyes.
-   - Prefer re-toning the base's own blush and marks.
+6. **Makeup.** Texture work goes through a recipe (skill `vrchat-textures`), rebuilt from the original every time. What belongs to this skill is what makeup may touch:
+   - **Never paint features that move:** lips and lashes painted on the texture don't follow the mouth and eyelid shape keys. On one avatar the painted lips stayed put while the mouth moved, and painted lower lashes showed through closed eyes. In a makeup PSD, skip those layers.
+   - Prefer re-toning the base's own blush and marks (`retone`).
    - Makeup done with shape keys interacts with expressions; makeup on the texture doesn't.
 7. **MMD check** ([MMD.md](MMD.md)). **Done when** the strategy is chosen with the user and they know what to test in an MMD world.
 8. **Apply and test.**

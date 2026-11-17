@@ -1,6 +1,6 @@
 ---
 name: vrchat-avatar-unity
-description: Work on a VRChat avatar in the open Unity Editor through MCP for Unity — bake and inspect what VRChat receives, render checks, play-mode and animator tests, upload. Use whenever editing, checking or uploading a VRChat avatar in Unity, or when another skill needs these.
+description: Work on a VRChat avatar in the open Unity Editor through MCP for Unity — bake and inspect what VRChat receives, render checks, play-mode and animator tests, menus and toggles, upload. Use whenever editing, checking or uploading a VRChat avatar in Unity, adding a menu toggle, or when another skill needs these.
 ---
 
 # VRChat avatar in Unity
@@ -16,7 +16,7 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 ## Working rules
 
 - **Vendor assets are read-only.** Copy into the project's folder for modified assets, edit the copy, and point the avatar at it. Prefab-instance overrides in the scene are fine.
-- **Textures are regenerated from the original** by a script every time, never edited again from a previous output. Repeated passes pile up artifacts.
+- **Textures are regenerated from the original** by a recipe every time, never edited again from a previous output. Repeated passes pile up artifacts. Skill `vrchat-textures`.
 - **One job per `execute_code` call.** Bake, inspect, render and clean up are separate calls. The compiler is codedom, C# 6 (GOTCHAS §codedom).
 - **Repeatable work goes in a compiled editor script** with an asmdef, rerunnable from a menu. One-off work stays in `execute_code`.
 - **Save the scene only when it was clean before your change**, or when every unsaved change is yours. Otherwise ask. Say what you saved.
@@ -37,20 +37,13 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 
 ## After an outfit change
 
-Putting an outfit on with Modular Avatar is quick; what costs time is the cleanup after it. Before calling an outfit change done, check on a bake:
-
-- **Body under the outfit:** the shrink or hide shape keys are set (the outfit's own, or the base's `Shrink_*` keys), and any skin that pokes through at the joints is caught in a pose test. Underwear the outfit always covers goes EditorOnly. Toggled underwear stays toggled.
-- **Toggles:** each one sits beside what it switches, never inside it, and any Bone Proxy is on the toggled root. The menu map of the bake (BAKE.md) shows every toggle driving what it should.
-- **The outfit's own components:** its Shape Changers and Material Setters target paths that exist on this avatar (outfits made for another base can point at nothing). Its PhysBones and colliders don't duplicate the hair's or the body's.
-- **Renderers:** new renderers are covered by any per-renderer animation the avatar already has (lighting or material curves, light-setting clips). Their MA Mesh Settings match the rest, so the meshes still merge. Removed or renamed renderers leave no dangling curves.
-- **Derived assets:** anything generated from the old outfit is regenerated, e.g. a hidden-body mask or a follow-body weight copy.
-- **Looks:** render front, back, side and a close-up of the seams, arms down. For anything below the waist, add sitting and leg poses (TEST.md).
-- **The record:** the project's notes say which outfit is on, where it came from, and which toggles exist.
+Putting an outfit on, and the cleanup checklist after it, are in skill `vrchat-outfits`.
 
 ## Reference
 
 - [BAKE.md](BAKE.md): before baking, measuring or reading the menu and FX of what gets uploaded.
 - [RENDER.md](RENDER.md): before any screenshot or before/after comparison.
 - [TEST.md](TEST.md): before testing PhysBones, constraints, toggles, FX layers or gestures.
+- [MENUS.md](MENUS.md): before adding, moving or checking a menu item, toggle or parameter.
 - [UPLOAD.md](UPLOAD.md): before any upload. Ask the user first, every time.
 - [GOTCHAS.md](GOTCHAS.md): before writing code against MA, VRC components, lilToon or AAO internals, and whenever something behaves oddly.

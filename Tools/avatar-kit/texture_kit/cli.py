@@ -93,6 +93,12 @@ def cmd_apply(a):
          "\n".join([f"Wrote {a.output} ({changed} pixels changed)"] + [f"Warning: {w}" for w in warnings]))
 
 
+def cmd_sheet(a):
+    from .preview import sheet
+    out = sheet(a.images, a.out, columns=a.columns, cell=a.cell, labels=not a.no_labels)
+    emit({"out": out}, a.json, f"Wrote {out}")
+
+
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="texture-kit", description="Rebuild a texture from its untouched original by a recipe.",
                                 epilog=EPILOG, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -140,6 +146,14 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--step", required=True, help="the step as JSON, e.g. '{\"op\": \"recolor\", \"hue_rotate\": 30}'")
     s.add_argument("--mask", action="append", default=[], metavar="NAME=PNG", help="a mask image the step can name")
     s.set_defaults(fn=cmd_apply)
+
+    s = sub.add_parser("sheet", help="tile images (renders, crops) into one labelled sheet to look at")
+    s.add_argument("images", type=Path, nargs="+")
+    s.add_argument("--out", type=Path, required=True)
+    s.add_argument("--columns", type=int, default=4)
+    s.add_argument("--cell", type=int, default=480, help="cell size in pixels")
+    s.add_argument("--no-labels", action="store_true")
+    s.set_defaults(fn=cmd_sheet)
     return p
 
 

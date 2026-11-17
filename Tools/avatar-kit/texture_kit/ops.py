@@ -148,7 +148,8 @@ def place(rgba: np.ndarray, step: dict, masks, base: Path, regions: dict) -> np.
     The image is scaled to the region's box. Inside the box, the mask (the region's, unless the step
     names one) and the image's own alpha decide how much of it shows. The texture keeps its alpha.
     "bleed": n spreads the placed colours n pixels into transparent padding next to them, so
-    mipmaps don't pull in the old colours.
+    mipmaps don't pull in the old colours. "flip": "x" mirrors the image left-right first (one
+    generated eye placed on both sides), "y" turns it upside down.
     """
     if "image" not in step:
         raise StepError("place needs an \"image\"")
@@ -167,6 +168,13 @@ def place(rgba: np.ndarray, step: dict, masks, base: Path, regions: dict) -> np.
         raise StepError(f"box {b} is outside the {w}x{h} texture")
 
     src = read_rgba(base / step["image"])
+    flip = step.get("flip")
+    if flip not in (None, "x", "y"):
+        raise StepError(f"flip must be \"x\" (mirror left-right) or \"y\" (upside down), got {flip!r}")
+    if flip == "x":
+        src = src[:, ::-1]
+    elif flip == "y":
+        src = src[::-1]
     bw, bh = x1 - x0, y1 - y0
     if src.shape[:2] != (bh, bw):
         src = resize_rgba(src, bw, bh)
