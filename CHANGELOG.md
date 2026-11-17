@@ -14,3 +14,6 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 ### Added
 
 - `TextureSources/` for texture recipes and their inputs, outside `Assets/`.
+- `Tools/avatar-kit/doctor.py`: environment check (Git, Git LFS and the project's LFS setup, uv, Unity 2022.3, VPM packages, MCP for Unity, Blender; the Linux VRChat SDK Patch on Linux). Table or `--json`; exits 1 when a required check fails; never installs anything.
+- `install.py` and `INSTALL.md`: install the kit into a Unity project without overwriting anything (existing files are listed, `.gitignore` / `.gitattributes` rules are appended), link `.agents/skills`, record the version in `.avatar-kit-version`. `INSTALL.md` also covers upgrading and uninstalling.
+- Tests (`tests/`) and CI on Ubuntu and Windows, Python 3.10 and 3.14.

@@ -55,6 +55,7 @@ Git 记录每一步，agent 做的任何事都能撤销。
 | lilToon（`jp.lilxyzw.liltoon`） | 多数 Booth 模型用的着色器 | `https://lilxyzw.github.io/vpm-repos/vpm.json` |
 | Meshia Mesh Simplification（`com.ramtype0.meshia.mesh-simplification`） | 减面，冲 PC Good 时用 | `https://RamType0.github.io/VpmRepository/index.json` |
 | FaceEmo（`jp.suzuryg.face-emo`） | 表情，可选 | `https://suzuryg.github.io/vpm-repos/vpm.json` |
+| Linux VRChat SDK Patch（`befuddledlabs.linuxvrchatsdkpatch-avatars`） | 仅 Linux：本地 Build & Test | 列表页 `https://befuddledlabs.github.io/LinuxVRChatSDKPatch` |
 
 ## MCP for Unity
 
@@ -142,6 +143,16 @@ git commit -m "tweak: 调整衣服材质"
 - Quest / Android 头像。
 - 用 VRCFury 配置的衣服：本工具箱假设使用 Modular Avatar。
 - lilToon 以外的着色器（如 Poiyomi）的材质设置。texture kit 不在乎着色器，但 skills 里的材质说明只写了 lilToon。
+
+## 开发
+
+测试在 `tests/` 下，不会装进项目：
+
+```sh
+uv run --with pytest pytest tests
+```
+
+CI 在 Ubuntu 和 Windows 上运行它们。Unity 端的 C# 在 Unity 里手动测试，每个脚本的文件头写明在什么上验证过。
 
 ## 许可
 

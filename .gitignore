@@ -39,6 +39,7 @@ __pycache__/
 __pycache__.meta
 *.pyc
 *.pyc.meta
+.pytest_cache/
 
 # OS
 .DS_Store

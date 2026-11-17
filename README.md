@@ -55,6 +55,7 @@ Install what your base model and outfits ask for first. These are the ones the s
 | lilToon (`jp.lilxyzw.liltoon`) | the shader most Booth models use | `https://lilxyzw.github.io/vpm-repos/vpm.json` |
 | Meshia Mesh Simplification (`com.ramtype0.meshia.mesh-simplification`) | polygon reduction, for PC Good | `https://RamType0.github.io/VpmRepository/index.json` |
 | FaceEmo (`jp.suzuryg.face-emo`) | expressions, optional | `https://suzuryg.github.io/vpm-repos/vpm.json` |
+| Linux VRChat SDK Patch (`befuddledlabs.linuxvrchatsdkpatch-avatars`) | Linux only: local Build & Test | listing at `https://befuddledlabs.github.io/LinuxVRChatSDKPatch` |
 
 ## MCP for Unity
 
@@ -142,6 +143,16 @@ git commit -m "tweak: adjust the outfit material"
 - Quest / Android avatars.
 - Outfits set up with VRCFury: the kit assumes Modular Avatar.
 - Material settings for shaders other than lilToon (e.g. Poiyomi). The texture kit works with any shader, but the material notes in the skills cover lilToon only.
+
+## Development
+
+Tests live in `tests/` and are not installed into projects:
+
+```sh
+uv run --with pytest pytest tests
+```
+
+CI runs them on Ubuntu and Windows. The Unity-side C# is tested by hand in Unity; each script's header says what it was verified on.
 
 ## License
 
