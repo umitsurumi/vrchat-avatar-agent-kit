@@ -4,12 +4,9 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
-### Changed
+## [0.1.0] - 2026-11-18
 
-- The template becomes a public kit, `vrchat-avatar-agent-kit`, under the MIT license.
-- `AGENTS.md` and `PROJECT.md` are in English; agents still talk to the user in the user's language. `AGENTS.md` no longer points at the README (which is not installed into projects): it carries the commit types itself.
-- README in English, with a Chinese translation in `README.zh-CN.md`.
-- The Write Defaults tool moved to `Assets/AvatarAgentKit/Editor/` (namespace and asmdef `AvatarAgentKit.Editor`); its menu is now `Tools/Avatar Agent Kit/Set All Write Defaults ON`.
+First public release: the private avatar-modding template becomes a public kit.
 
 ### Added
 
@@ -24,10 +21,17 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 - Skill `vrchat-textures`: driving the texture kit, masks from the UV export, hooking the output up in lilToon materials; `REDRAW.md` for redrawing part of a texture with an image model.
 - `vrchat-avatar-unity/MENUS.md`: MA menus, toggles, parameters, Write Defaults and layer order, with the rules real toggles broke on.
 
-### Changed in the skills
+### Changed (from the private template)
 
+- The template becomes a public kit, `vrchat-avatar-agent-kit`, under the MIT license.
+- `AGENTS.md` and `PROJECT.md` are in English; agents still talk to the user in the user's language. `AGENTS.md` no longer points at the README (which is not installed into projects): it carries the commit types itself.
+- README in English, with a Chinese translation in `README.zh-CN.md`.
+- The Write Defaults tool moved to `Assets/AvatarAgentKit/Editor/` (namespace and asmdef `AvatarAgentKit.Editor`); its menu is now `Tools/Avatar Agent Kit/Set All Write Defaults ON`.
 - No skill needs ImageMagick any more: render sheets use `texture-kit sheet`, and `booth.py` makes its sheets with Pillow (installed by `uv run`).
 - `booth.py` waits a second between requests (was 0.4 s) and says what it fetches, in line with BOOTH's 2025-10-10 scraping guideline.
 - Shell snippets note POSIX shells (Git Bash on Windows), and uploads can be polled from PowerShell too.
 - Texture makeup moved from `vrchat-expressions` to `vrchat-textures`; `vrchat-expressions` keeps what makeup may touch.
 - Skill descriptions name the everyday words people use (换衣服, 绿模, 改色, Very Poor, …) so they trigger without the jargon.
+
+[Unreleased]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/releases/tag/v0.1.0
