@@ -9,11 +9,13 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 - Avatar tools in Unity (`Assets/AvatarAgentKit/Editor/Avatar/`, assembly `AvatarAgentKit.Editor.Avatar`, compiled only when NDMF and the VRChat Avatars SDK are installed). Static methods that return text, for one line of `execute_code`, and menu items under `Tools/Avatar Agent Kit`:
   - `Bake.Run` / `Bake.Cleanup`: the NDMF-baked clone `<avatar>_bakecheck`, with NDMF's errors in the result; cleanup restores the source and saves the scene only if it was clean before the bake.
   - `ReportPerformance.Run`: the PC rating of a baked clone, the metrics that set it, each metric with the limit of the next better rating (read from the SDK), and the biggest renderers and PhysBones.
-  - `RenderAvatar.Run`: renders targets into a sheet in a preview scene, without touching the user's scene; preset shots, arms down on baked clones, close-ups of one part (`focus`), labels for before/after.
+  - `RenderAvatar.Run`: renders targets into a sheet in a preview scene, without touching the user's scene; preset shots, arms down on baked clones, close-ups of one part (`focus`), labels for before/after. Side shots say which way the avatar faces in the picture.
+  - `ReportMenu.Run`: the menu tree, parameters and synced cost, and each FX layer with its Write Defaults and the parameters it tests; `find` traces a toggle from the menu to what it animates and marks bindings to objects missing from the clone.
+  - `Pose.Run` / `Pose.Reset`: play-mode poses for motion tests (torso leans, leg poses), from the saved rest pose, arms down.
 
 ### Changed
 
-- `vrchat-avatar-unity`: BAKE.md and RENDER.md use the avatar tools instead of C# snippets to copy; TEST.md renders pose tests with `RenderAvatar`. The menu/FX snippet stays.
+- `vrchat-avatar-unity`: BAKE.md, RENDER.md and TEST.md use the avatar tools instead of C# snippets to copy (bake, stats, menu map, renders, poses); MENUS.md, `vrchat-outfits`, `vrchat-pc-good` and MMD.md point at them.
 
 ## [0.1.0] - 2026-11-18
 

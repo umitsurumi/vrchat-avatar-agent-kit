@@ -77,7 +77,7 @@ agent 通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 操作打�
 | `PROJECT.md` | 项目的基本事实（基础模型、头像、蓝图 ID、方向）；第一次会话时和你一起填 |
 | `.claude/skills/`、`.agents/skills` | skills；`.agents/skills` 是指向 `.claude/skills` 的链接，给 Codex 用 |
 | `Tools/avatar-kit/` | `doctor.py`（环境检查）和 texture kit |
-| `Assets/AvatarAgentKit/Editor/` | avatar 工具（烘焙、性能报告、渲染）和 Unity 菜单 `Tools/Avatar Agent Kit` |
+| `Assets/AvatarAgentKit/Editor/` | avatar 工具（烘焙、报告、渲染、测试姿势）和 Unity 菜单 `Tools/Avatar Agent Kit` |
 | `Assets/_USER/` | 你自己改过的资源；厂商文件保持原样 |
 | `TextureSources/` | 贴图配方和它们的输入（在 `Assets/` 外面，Unity 不会导入） |
 | `.gitignore`、`.gitattributes` | Unity 和 ALCOM 的忽略规则；模型和贴图走 LFS |
@@ -106,7 +106,7 @@ agent 通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 操作打�
 - **环境检查**：`uv run Tools/avatar-kit/doctor.py` 列出装了什么、缺的怎么装（给 agent 用 `--json`）。它自己不安装任何东西。
 - **texture kit**（`uv run Tools/avatar-kit/texture-kit.py --help`）：一张贴图由 `TextureSources/<贴图名>/recipe.json` 里的配方描述：原图、输出和处理步骤（UV 遮罩、妆容 PSD、重新调色、改色、为生图模型重画准备的 crop 和 place）。每次运行都从原图开始，输出永远不会被再次加工，瑕疵不会累积。详见 skill `vrchat-textures`。
 - **渲染拼图**：`uv run Tools/avatar-kit/texture-kit.py sheet <图片> --out sheet.png` 把截图拼成一张带标签的图，方便检查。
-- **Avatar 工具**（Unity 里，agent 用一行 `execute_code` 调用，也在菜单 `Tools/Avatar Agent Kit` 下）：`Bake` 做出 VRChat 实际收到的、经 NDMF 处理的克隆，用完再清理；`ReportPerformance` 给出它的 PC 评级、各项上限，以及最大的 renderer 和 PhysBone；`RenderAvatar` 在预览场景里把它渲染成一张拼图，不碰你的场景。需要 NDMF（随 Modular Avatar 安装）和 VRChat Avatars SDK。
+- **Avatar 工具**（Unity 里，agent 用一行 `execute_code` 调用，也在菜单 `Tools/Avatar Agent Kit` 下）：`Bake` 做出 VRChat 实际收到的、经 NDMF 处理的克隆，用完再清理；`ReportPerformance` 给出它的 PC 评级、各项上限，以及最大的 renderer 和 PhysBone；`ReportMenu` 列出它的菜单、参数和 FX 层，并把一个开关从头到尾追一遍；`RenderAvatar` 在预览场景里把它渲染成一张拼图，不碰你的场景；`Pose` 在 play 模式里摆好动作测试用的姿势。需要 NDMF（随 Modular Avatar 安装）和 VRChat Avatars SDK。
 - **Unity 菜单** `Tools/Avatar Agent Kit`：另外还能导出 UV 三角形，用来做贴图遮罩；把选中的 Animator Controller 里所有状态的 Write Defaults 设为 ON。
 
 ## 在改模项目里用 Git

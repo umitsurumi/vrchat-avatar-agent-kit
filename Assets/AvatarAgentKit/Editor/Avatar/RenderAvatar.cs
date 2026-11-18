@@ -7,6 +7,7 @@
 //   return AvatarAgentKit.Editor.RenderAvatar.Run("A_bakecheck,B_bakecheck", "front,threequarter,upper");
 // targets: root objects, comma-separated; one row each. Left out: the only baked clone.
 // shots:   front, back, left, right, threequarter (front right), upper (head to hips), face. One column each.
+//   left is seen from the avatar's left side, so the avatar faces left in the picture; right faces right.
 // armsDown: rotate the upper arms down. Default: on for a baked clone in edit mode; off in play mode (keeps a
 //   pose set up for a test) and for an unbaked avatar (its outfits are not merged yet, so sleeves would stay).
 // focus, size: aim every shot at one part: a humanoid bone (Hips, Chest, LeftUpperLeg, ...) or a path under the
@@ -39,7 +40,6 @@ namespace AvatarAgentKit.Editor
     {
         const string Tool = "RenderAvatar";
         const float FieldOfView = 30f;
-        const float ArmAngleFromBody = 15f;
         static readonly Color Background = new Color(0.80f, 0.82f, 0.86f);
         static readonly string[] Shots = { "front", "back", "left", "right", "threequarter", "upper", "face" };
 
@@ -157,7 +157,7 @@ namespace AvatarAgentKit.Editor
                 sb.Append(Tool).Append(": ").Append(objects.Count).Append(objects.Count == 1 ? " row x " : " rows x ")
                     .Append(shotList.Count).Append(shotList.Count == 1 ? " shot -> " : " shots -> ").AppendLine(sheetPath);
                 sb.Append("rows: ").AppendLine(string.Join("; ", rowLabels));
-                sb.Append("columns: ").Append(string.Join(", ", shotList));
+                sb.Append("columns: ").Append(string.Join(", ", shotList.Select(Facing)));
                 if (!string.IsNullOrEmpty(focus))
                     sb.Append(" (aimed at ").Append(Targets.Quote(focus)).Append(", ").Append(size.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)).Append(" m high)");
                 sb.AppendLine();
@@ -204,26 +204,12 @@ namespace AvatarAgentKit.Editor
             return go;
         }
 
-        // Rotates each upper arm so it points down, ArmAngleFromBody away from the body, whatever the rest pose
-        // (T or A). Bones are found through the target's Animator and mapped to the copy by path.
+        // Arms down on the copy; bones are found through the target's Animator and mapped to the copy by path.
         static bool ArmsDown(GameObject target, GameObject copy)
         {
             var anim = target.GetComponent<Animator>();
             if (anim == null || !anim.isHuman || !target.activeInHierarchy) return false;
-            var any = false;
-            foreach (var pair in new[] { (HumanBodyBones.LeftUpperArm, HumanBodyBones.LeftLowerArm), (HumanBodyBones.RightUpperArm, HumanBodyBones.RightLowerArm) })
-            {
-                var upper = Mapped(anim.GetBoneTransform(pair.Item1), target, copy);
-                var lower = Mapped(anim.GetBoneTransform(pair.Item2), target, copy);
-                if (upper == null || lower == null) continue;
-                var along = (lower.position - upper.position).normalized;
-                var side = Vector3.Dot(along, copy.transform.right) >= 0 ? copy.transform.right : -copy.transform.right;
-                var rad = ArmAngleFromBody * Mathf.Deg2Rad;
-                var want = (-copy.transform.up * Mathf.Cos(rad) + side * Mathf.Sin(rad)).normalized;
-                upper.rotation = Quaternion.FromToRotation(along, want) * upper.rotation;
-                any = true;
-            }
-            return any;
+            return Posing.ArmsDown(b => Mapped(anim.GetBoneTransform(b), target, copy), copy.transform);
         }
 
         // A humanoid bone by name, else a path under the copy's root.
@@ -278,6 +264,12 @@ namespace AvatarAgentKit.Editor
             key.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(25f, Vector3.up) * down);
             fill.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(-120f, Vector3.up) * down);
         }
+
+        // Side views are easy to misread: say which way the avatar faces in the picture.
+        static string Facing(string shot) =>
+            shot == "left" ? "left (faces left in the picture)" :
+            shot == "right" ? "right (faces right in the picture)" :
+            shot == "threequarter" ? "threequarter (turned to the right in the picture)" : shot;
 
         static string Safe(string name)
         {

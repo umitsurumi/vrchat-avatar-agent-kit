@@ -37,7 +37,7 @@ Putting an outfit on with Modular Avatar takes minutes. The time goes into what 
    - Recolouring a texture: `vrchat-textures`.
 8. **Check** on a bake before calling it done:
    - **Body under the outfit:** shrink keys set, nothing poking through in pose tests, covered underwear gone, toggled underwear still toggled.
-   - **Toggles:** each one beside what it switches, Bone Proxies on the toggled roots; the menu map of the bake (`vrchat-avatar-unity` BAKE.md) shows every toggle driving what it should; every state rendered.
+   - **Toggles:** each one beside what it switches, Bone Proxies on the toggled roots; `ReportMenu` with `find` on the bake (`vrchat-avatar-unity` BAKE.md) shows every toggle driving what it should; every state rendered.
    - **The outfit's own components:** its Shape Changers and Material Setters target paths that exist on this avatar (outfits made for another base can point at nothing); its PhysBones and colliders don't duplicate the hair's or the body's.
    - **Renderers:** new ones are covered by the avatar's per-renderer animations; their MA Mesh Settings match the rest, so meshes still merge; removed or renamed ones leave no dangling curves.
    - **Derived assets** regenerated: a hidden-body mask, follow-body weights.

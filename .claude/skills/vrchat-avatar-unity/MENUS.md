@@ -1,6 +1,6 @@
 # Menus, toggles and parameters
 
-How an avatar's menu is put together with Modular Avatar, and the rules that kept toggles working on real avatars. Check every result on a bake: the menu map in [BAKE.md](BAKE.md) shows what each control drives after MA has merged everything, and [TEST.md](TEST.md) runs the FX by hand.
+How an avatar's menu is put together with Modular Avatar, and the rules that kept toggles working on real avatars. Check every result on a bake: `ReportMenu` ([BAKE.md](BAKE.md)) shows what each control drives after MA has merged everything, and [TEST.md](TEST.md) runs the FX by hand.
 
 ## Building blocks
 
@@ -11,7 +11,7 @@ How an avatar's menu is put together with Modular Avatar, and the rules that kep
   - `MA Material Setter`: swaps a material while the control is on. It also stops that renderer from merging.
   - Several on one control: each state of a variant menu can carry an Object Toggle and a Shape Changer together.
 - **Parameters:** a menu item creates its parameter; `MA Parameters` sets names, defaults, saved and synced. Prefix your own parameters (`<Project>/Hairpin`) so they don't collide with a vendor's.
-- **Budget:** synced parameters share 256 bits: a bool costs 1, an int or a float 8. `expressionParameters.CalcTotalCost()` on a bake gives the total (BAKE.md). A variant menu with three or more states is cheaper as one int than as several bools, and the states can't overlap.
+- **Budget:** synced parameters share 256 bits: a bool costs 1, an int or a float 8. `ReportMenu` gives the total on a bake. A variant menu with three or more states is cheaper as one int than as several bools, and the states can't overlap.
 
 ## Rules
 
@@ -26,7 +26,7 @@ How an avatar's menu is put together with Modular Avatar, and the rules that kep
 
 ## Write Defaults
 
-- Keep one Write Defaults convention across the FX. Mixing WD on and off is a classic cause of toggles that stay stuck or faces that don't reset. The BAKE.md and MMD.md (`vrchat-expressions`) snippets report WD per layer.
+- Keep one Write Defaults convention across the FX. Mixing WD on and off is a classic cause of toggles that stay stuck or faces that don't reset. `ReportMenu` reports WD per layer and names the layers that differ; so does the MMD.md (`vrchat-expressions`) snippet.
 - MA's Merge Animator can match the avatar's convention for merged controllers.
 - `Tools/Avatar Agent Kit/Set All Write Defaults ON` sets every state of a selected controller to WD on. Use it on your own copies only, never on vendor controllers.
 

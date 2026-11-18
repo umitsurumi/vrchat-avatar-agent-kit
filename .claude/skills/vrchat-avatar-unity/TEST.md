@@ -6,58 +6,19 @@ The Unity Editor shows less than the VRChat client. PhysBones and VRC constraint
 
 ## Pose test (PhysBones, constraints, clipping)
 
-Enter play mode, then:
+Enter play mode (`manage_editor` play), then pose, wait, render, each in its own call:
 
-1. **Save the rest pose**, once per play session. `Temp/` can be cleared, so if the file is gone, save it again at rest.
+```csharp
+return AvatarAgentKit.Editor.Pose.Run("MyAvatar", "squat");     // rest pose, arms down, then the pose; Animator off
+// wait 1–3 s for the PhysBones to settle
+return AvatarAgentKit.Editor.RenderAvatar.Run("MyAvatar", "front,left,back", focus: "Hips", size: 0.9f, label: "squat");
+return AvatarAgentKit.Editor.Pose.Reset("MyAvatar");             // rest pose, Animator back on
+```
 
-   ```csharp
-   if (!EditorApplication.isPlaying) return "not playing";
-   GameObject av = null;
-   foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>()) if (g.scene.IsValid() && g.transform.parent == null && g.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>() != null) av = g;
-   var anim = av.GetComponent<Animator>(); anim.enabled = false;
-   var sb = new System.Text.StringBuilder();
-   foreach (var b in new HumanBodyBones[] { HumanBodyBones.Spine, HumanBodyBones.Chest, HumanBodyBones.LeftUpperArm, HumanBodyBones.RightUpperArm }) { var q = anim.GetBoneTransform(b).localRotation; sb.Append(q.x.ToString("R")).Append(',').Append(q.y.ToString("R")).Append(',').Append(q.z.ToString("R")).Append(',').Append(q.w.ToString("R")).Append('\n'); }
-   System.IO.Directory.CreateDirectory("Temp/shots");
-   System.IO.File.WriteAllText("Temp/shots/rest_torso.txt", sb.ToString());
-   return "saved";
-   ```
-
-   The Animator has to stay disabled, or it resets every bone you set. For leg poses, save `LeftUpperLeg`, `RightUpperLeg`, `LeftLowerLeg` and `RightLowerLeg` the same way.
-
-2. **Pose: restore the rest pose, then rotate**, all in one call. The rotations are around world axes taken from the avatar, so the pose doesn't depend on the bone rolls.
-
-   ```csharp
-   string POSE = "back";   // back | right | left | fwd
-   if (!EditorApplication.isPlaying) return "not playing";
-   GameObject av = null;
-   foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>()) if (g.scene.IsValid() && g.transform.parent == null && g.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>() != null) av = g;
-   var anim = av.GetComponent<Animator>(); anim.enabled = false;
-   var bones = new Transform[] { anim.GetBoneTransform(HumanBodyBones.Spine), anim.GetBoneTransform(HumanBodyBones.Chest), anim.GetBoneTransform(HumanBodyBones.LeftUpperArm), anim.GetBoneTransform(HumanBodyBones.RightUpperArm) };
-   var lines = System.IO.File.ReadAllLines("Temp/shots/rest_torso.txt");
-   for (int i = 0; i < 4; i++) { var p = lines[i].Split(','); bones[i].localRotation = new Quaternion(float.Parse(p[0]), float.Parse(p[1]), float.Parse(p[2]), float.Parse(p[3])); }
-   var right = av.transform.right; var fwd = av.transform.forward;
-   System.Action<int, float, Vector3> rot = (i, a, axis) => { bones[i].rotation = Quaternion.AngleAxis(a, axis) * bones[i].rotation; };
-   rot(2, 70f, fwd); rot(3, -70f, fwd);                       // arms down
-   if (POSE == "back") { rot(0, -15f, right); rot(1, -15f, right); }
-   if (POSE == "fwd") { rot(0, 15f, right); rot(1, 15f, right); }
-   if (POSE == "right") { rot(0, -15f, fwd); rot(1, -15f, fwd); }
-   if (POSE == "left") { rot(0, 15f, fwd); rot(1, 15f, fwd); }
-   return POSE;
-   ```
-
-3. **Wait 1–3 s** for the PhysBones to settle, then **render in a separate call**, aimed at the part under test ([RENDER.md](RENDER.md)). In play mode the scene avatar is the processed one, and its pose is kept:
-
-   ```csharp
-   return AvatarAgentKit.Editor.RenderAvatar.Run("MyAvatar", "front,left,back", focus: "Hips", size: 0.7f, label: "back-new");
-   ```
-
-   Compare against a baseline: the same poses with the old settings.
-
-Poses that caught real problems:
-- **Legs** (garments, skirts): spread 40°, kick back 45°, squat (thigh 110°, knee 130°), side kick 70°.
-- **Torso** (hair, braids): lean back, left, right and forward by 30° (15° on Spine plus 15° on Chest), arms down.
-
-Static poses still miss fast motion: dance animations caught clipping that every static pose missed. Ask the user to check in game, e.g. in an MMD dance world.
+- **Legs** (skirts, garments): `spread`, `kick-back`, `side-kick`, `squat`, `sit`. **Torso** (hair, braids): `lean-back`, `lean-forward`, `lean-left`, `lean-right`. Angles and the full list are in the header of `Pose.cs`. All but `sit` caught real problems.
+- In play mode the scene avatar is the processed one, and `RenderAvatar` keeps its pose.
+- **Compare against a baseline:** the same poses with the old settings, rendered with their own `label`.
+- **Static poses still miss fast motion:** dance animations caught clipping that every static pose missed. Ask the user to check in game, e.g. in an MMD dance world.
 
 **Constraints:** VRC constraints don't evaluate in edit mode either. At runtime, `ApplyConfigurationChanges()` re-bakes the offsets of *unlocked* constraints, so a vendor's unlocked constraint can drift from what it was authored to do.
 

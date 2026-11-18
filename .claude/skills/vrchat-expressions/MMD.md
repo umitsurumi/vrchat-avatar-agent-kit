@@ -16,7 +16,7 @@ Sources: [MA: MMD World Workarounds](https://modular-avatar.nadena.dev/docs/gene
 
 ## Check an avatar
 
-Bake (`vrchat-avatar-unity` BAKE.md), then list the first FX layers, and every layer that writes face keys, with how many of them are MMD keys. A Japanese-named key counts as MMD here; check the list by eye. Adapted from code that ran on a real avatar (only the names became parameters):
+Bake (`Bake.Run`, `vrchat-avatar-unity` BAKE.md), then list the first FX layers, and every layer that writes face keys, with how many of them are MMD keys. A Japanese-named key counts as MMD here; check the list by eye. Adapted from code that ran on a real avatar (only the names became parameters):
 
 ```csharp
 string CLONE = "MyAvatar_bakecheck", FACE = "Body";
