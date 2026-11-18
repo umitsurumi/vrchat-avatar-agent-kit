@@ -54,7 +54,12 @@ Talk to the user in their language, and write `PROJECT.md`, `HANDOFF-*.md` and c
 - The user may be editing the same scene. Before saving, check `scene.isDirty`; if there are changes you didn't make, ask first.
 - Judge a change on the NDMF-baked copy, not the scene object. How: skill `vrchat-avatar-unity`.
 - Before a commit that changes the avatar, and before an upload, bake and run `CheckAvatar`: fix its errors, and settle each warning with the user.
-- A look only counts once it has been rendered and seen. What can only be confirmed in game (how physics feels, how others see it) goes to the user to test in VRChat.
+- A claim is settled by the cheapest check that can settle it, in this order: reading the scene and assets (`CheckAvatar`), the bake (`Bake`, the reports, renders), play mode (poses, the FX run by hand), the user in VRChat. A look only counts once it has been rendered and seen. What only the game can show (how physics feels, contacts, how others see it) goes into the handoff as a checklist for the user: what to do, where to look, what counts as right. Not just "please check in game".
+
+## Scope
+
+- A fix outside what the user asked for, that changes what gets uploaded, is the user's call: name it and add it to the handoff as an open question; don't make it on the side and mention it afterwards. A fix inside the ask that changes nothing in the build (a tidier script, a rename in your own notes) is yours to make.
+- Work that runs without the user (a background task, a sub-agent): do the parts that don't depend on an open decision, leave the dependent parts undone and name them, and end with every question under `needs input:`. Don't pick a default for the user.
 
 ## Upload
 

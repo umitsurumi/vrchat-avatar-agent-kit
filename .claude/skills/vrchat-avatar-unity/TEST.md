@@ -18,7 +18,7 @@ return AvatarAgentKit.Editor.Pose.Reset("MyAvatar");             // rest pose, A
 - **Legs** (skirts, garments): `spread`, `kick-back`, `side-kick`, `squat`, `sit`. **Torso** (hair, braids): `lean-back`, `lean-forward`, `lean-left`, `lean-right`. Angles and the full list are in the header of `Pose.cs`. All but `sit` caught real problems.
 - In play mode the scene avatar is the processed one, and `RenderAvatar` keeps its pose.
 - **Compare against a baseline:** the same poses with the old settings, rendered with their own `label`.
-- **Static poses still miss fast motion:** dance animations caught clipping that every static pose missed. Ask the user to check in game, e.g. in an MMD dance world.
+- **Static poses still miss fast motion:** dance animations caught clipping that every static pose missed. Put it on the in-game checklist, e.g. a dance in an MMD world, watching the skirt and the hair.
 
 **Constraints:** VRC constraints don't evaluate in edit mode either. At runtime, `ApplyConfigurationChanges()` re-bakes the offsets of *unlocked* constraints, so a vendor's unlocked constraint can drift from what it was authored to do.
 

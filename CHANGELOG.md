@@ -16,6 +16,7 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 
 ### Changed
 
+- `AGENTS.md`: a claim is settled by the cheapest check that can settle it (scene and assets, bake, play mode, the user in VRChat), and what only the game can show goes into the handoff as a checklist. New section Scope: fixes outside the ask that change the upload are named and queued, not made on the side; work without the user ends with its open questions under `needs input:`.
 - `AGENTS.md` and UPLOAD.md: bake and run `CheckAvatar` before a commit that changes the avatar and before an upload. The three Modular Avatar gotchas it checks left GOTCHAS.md (MENUS.md keeps them as rules).
 - `vrchat-avatar-unity`: BAKE.md, RENDER.md and TEST.md use the avatar tools instead of C# snippets to copy (bake, stats, menu map, renders, poses); MENUS.md, `vrchat-outfits`, `vrchat-pc-good` and MMD.md point at them.
 
