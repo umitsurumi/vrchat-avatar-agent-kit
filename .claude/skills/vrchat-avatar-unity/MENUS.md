@@ -1,6 +1,6 @@
 # Menus, toggles and parameters
 
-How an avatar's menu is put together with Modular Avatar, and the rules that kept toggles working on real avatars. Check every result on a bake: `ReportMenu` ([BAKE.md](BAKE.md)) shows what each control drives after MA has merged everything, and [TEST.md](TEST.md) runs the FX by hand.
+How an avatar's menu is put together with Modular Avatar, and the rules that kept toggles working on real avatars. Check every result on a bake: `ReportMenu` ([BAKE.md](BAKE.md)) shows what each control drives after MA has merged everything, `CheckAvatar` catches the broken toggles, Bone Proxies and parameters of the rules below, and [TEST.md](TEST.md) runs the FX by hand.
 
 ## Building blocks
 

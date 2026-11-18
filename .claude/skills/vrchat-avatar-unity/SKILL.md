@@ -27,7 +27,7 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 
 1. **Change** it, through `Undo`, recording prefab-instance modifications.
 2. **Bake** a clone (`Bake.Run`, [BAKE.md](BAKE.md)): what VRChat receives after MA, NDMF, AAO and the rest.
-3. **Inspect** the clone. Check the stats, the renderers and their materials (`ReportPerformance`), the menu, the parameters and the FX map, and the blendshape names (AAO renames merged ones).
+3. **Inspect** the clone. Run `CheckAvatar`. Check the stats, the renderers and their materials (`ReportPerformance`), the menu, the parameters and the FX map (`ReportMenu`), and the blendshape names (AAO renames merged ones).
 4. **Render** (`RenderAvatar`, [RENDER.md](RENDER.md)) and look at the images.
 5. **Test motion and logic** ([TEST.md](TEST.md)):
    - play-mode poses for PhysBones and constraints;

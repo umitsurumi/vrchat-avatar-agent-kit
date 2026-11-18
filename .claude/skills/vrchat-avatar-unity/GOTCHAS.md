@@ -43,9 +43,6 @@ Each one cost real time on a real avatar, unless it is marked as coming from som
 
 ## Modular Avatar
 
-- **Bone Proxy** must sit on the object a toggle switches. On a child, the child moves under the bone at build time, and the toggle switches an empty shell.
-- **An Object Toggle inside its own target** switches itself off. Keep toggles beside what they switch.
-- **Toggle targets return to their saved state** when the toggle is off. Save the target in its "off" state, even if the toggle defaults to on. (From agentic-unity's notes.)
 - **Menu item vs install target:** the menu-item object (with `ModularAvatarMenuItem`) and a Menu Install Target can share a name. Pick the one with the component.
 - **Shape Changer** fields: `m_shapes[].Object.referencePath / targetObject`, `ShapeName`, `ChangeType` (Delete / Set), `Value`. Hiding by a shape key, instead of toggling the object, keeps the renderer mergeable.
 - **Merge Animator layer priority:** later layers win, so a layer that sets the face goes after the expression tool's layers.

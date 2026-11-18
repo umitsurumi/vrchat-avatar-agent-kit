@@ -92,7 +92,7 @@ Inactive objects that an animation can switch on still count. Inactive objects n
 
 Good's PhysBone budget (8 / 64 / 8 / 128) rarely fits hair plus a swinging garment. Levers, in the order they were pulled on the Green build:
 
-1. **Dead PBs.** A PB whose chain has no weight on any mesh (inactive meshes included), or that nothing ever enables. AAO removes most of these itself. It keeps any PB that has a parameter (a base's tail or ears, say), and those count.
+1. **Dead PBs.** A PB whose chain has no weight on any mesh (inactive meshes included), or that nothing ever enables. AAO removes most of these itself. It keeps any PB that has a parameter (a base's tail or ears, say), and those count. `CheckAvatar` with a bake lists both kinds and says which survive the build.
 2. **Static parts** (the user's call per part): delete the PB. Collars, a neck ribbon and the butt went static on Green. The face pinch stayed.
 3. **Merge PhysBone groups** of similar chains, overriding the settings that differ: hair front, back and side. Leave alone any chain whose behaviour is unique (an ahoge with gravity 0, a braid).
 4. **Merge Bone every other bone** of long hair chains: the hair moves less and the tips are stiffer.

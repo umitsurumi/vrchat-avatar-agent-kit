@@ -2,7 +2,8 @@
     "name": "AvatarAgentKit.Editor.Avatar",
     "rootNamespace": "AvatarAgentKit.Editor",
     "references": [
-        "nadena.dev.ndmf"
+        "nadena.dev.ndmf",
+        "nadena.dev.modular-avatar.core"
     ],
     "includePlatforms": [
         "Editor"
@@ -26,6 +27,11 @@
             "name": "com.vrchat.avatars",
             "expression": "",
             "define": "AAK_VRCSDK3A"
+        },
+        {
+            "name": "nadena.dev.modular-avatar",
+            "expression": "",
+            "define": "AAK_MA"
         }
     ],
     "noEngineReferences": false

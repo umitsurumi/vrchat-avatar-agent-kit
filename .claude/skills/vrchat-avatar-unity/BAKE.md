@@ -10,12 +10,14 @@ The kit's avatar tools (`Assets/AvatarAgentKit/Editor/Avatar/`) do the common st
 return AvatarAgentKit.Editor.Bake.Run("MyAvatar");               // clone MyAvatar_bakecheck, run NDMF, hide the source
 return AvatarAgentKit.Editor.ReportPerformance.Run("MyAvatar");  // PC rating, limits, biggest renderers and PhysBones
 return AvatarAgentKit.Editor.ReportMenu.Run("MyAvatar");         // menu, parameters, FX layers (below)
+return AvatarAgentKit.Editor.CheckAvatar.Run("MyAvatar");        // mistakes that broke real avatars, with fixes
 return AvatarAgentKit.Editor.Bake.Cleanup("MyAvatar");           // remove the clone, restore the source, save if it was clean
 ```
 
 - The name can be left out when the scene holds one avatar. Options and behaviour are in each file's header.
 - **After every change, `Bake.Run` again** before measuring or rendering: the clone is a snapshot. Run replaces the old clone.
 - **A timed-out `Bake.Run` is not resent.** The editor finishes the bake first; the next call (e.g. `ReportPerformance`) waits for it and finds the clone.
+- **`CheckAvatar` before a commit and before an upload.** It checks the scene avatar, and the bake too when there is one; bake first for the full check. Fix its errors; take each warning to the user or fix it.
 - **NDMF's errors and warnings** come back in Bake's result. A bake with errors is not what VRChat would get; fix them first.
 - **`AvatarAgentKit.Editor.Bake` not found:** the tools compile only with NDMF and the VRChat Avatars SDK installed (`doctor.py`); otherwise look for a compile error in the Console.
 - Bake, inspection and cleanup are separate calls. Snippets of your own find the clone by its name, `<avatar>_bakecheck`.

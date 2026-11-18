@@ -77,7 +77,7 @@ This changes `Packages/manifest.json`; commit it on its own (e.g. `chore: instal
 | `PROJECT.md` | the project's facts (base model, avatars, blueprint IDs, direction); filled in with you in the first session |
 | `.claude/skills/`, `.agents/skills` | the skills; `.agents/skills` links to `.claude/skills` for Codex |
 | `Tools/avatar-kit/` | `doctor.py` (environment check) and the texture kit |
-| `Assets/AvatarAgentKit/Editor/` | the avatar tools (bake, reports, renders, test poses) and the Unity menu `Tools/Avatar Agent Kit` |
+| `Assets/AvatarAgentKit/Editor/` | the avatar tools (bake, checks, reports, renders, test poses) and the Unity menu `Tools/Avatar Agent Kit` |
 | `Assets/_USER/` | your own modified assets; vendor files stay untouched |
 | `TextureSources/` | texture recipes and their inputs (outside `Assets/`, so Unity doesn't import them) |
 | `.gitignore`, `.gitattributes` | Unity and ALCOM ignores; models and textures go to LFS |
@@ -106,7 +106,7 @@ The kit has two tiers:
 - **Environment check**: `uv run Tools/avatar-kit/doctor.py` prints a table of what is installed and how to install what is missing (`--json` for agents). It never installs anything itself.
 - **Texture kit** (`uv run Tools/avatar-kit/texture-kit.py --help`): a texture is described by a recipe in `TextureSources/<texture>/recipe.json`: the original, the output, and the steps (UV masks, makeup PSDs, re-toning, recolouring, crop and place for image-model redraws). Every run starts from the untouched original, so an output is never edited again and artifacts don't pile up. Details: skill `vrchat-textures`.
 - **Render sheets**: `uv run Tools/avatar-kit/texture-kit.py sheet <images> --out sheet.png` tiles screenshots into one labelled image for checking.
-- **Avatar tools** in Unity, for the agent (one line of `execute_code`) and in the menu `Tools/Avatar Agent Kit`: `Bake` makes the NDMF-baked clone VRChat would receive and cleans up after it; `ReportPerformance` gives its PC rating, the limits and the biggest renderers and PhysBones; `ReportMenu` shows its menu, parameters and FX layers and traces a toggle end to end; `RenderAvatar` renders it into one sheet in a preview scene, without touching your scene; `Pose` sets up the play-mode poses for motion tests. They need NDMF (comes with Modular Avatar) and the VRChat Avatars SDK.
+- **Avatar tools** in Unity, for the agent (one line of `execute_code`) and in the menu `Tools/Avatar Agent Kit`: `Bake` makes the NDMF-baked clone VRChat would receive and cleans up after it; `CheckAvatar` finds mistakes that broke real avatars (broken toggles, Bone Proxies, missing parameters and bindings, dead PhysBones, a blueprint ID shared between branches) and says how to fix each; `ReportPerformance` gives its PC rating, the limits and the biggest renderers and PhysBones; `ReportMenu` shows its menu, parameters and FX layers and traces a toggle end to end; `RenderAvatar` renders it into one sheet in a preview scene, without touching your scene; `Pose` sets up the play-mode poses for motion tests. They need NDMF (comes with Modular Avatar) and the VRChat Avatars SDK.
 - **Unity menu** `Tools/Avatar Agent Kit`: also exports UV triangles for texture masks, and sets Write Defaults ON on every state of the selected Animator Controller.
 
 ## Git in your avatar project

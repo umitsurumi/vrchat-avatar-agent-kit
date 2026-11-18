@@ -12,9 +12,11 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
   - `RenderAvatar.Run`: renders targets into a sheet in a preview scene, without touching the user's scene; preset shots, arms down on baked clones, close-ups of one part (`focus`), labels for before/after. Side shots say which way the avatar faces in the picture.
   - `ReportMenu.Run`: the menu tree, parameters and synced cost, and each FX layer with its Write Defaults and the parameters it tests; `find` traces a toggle from the menu to what it animates and marks bindings to objects missing from the clone.
   - `Pose.Run` / `Pose.Reset`: play-mode poses for motion tests (torso leans, leg poses), from the saved rest pose, arms down.
+  - `CheckAvatar.Run`: mistakes that broke real avatars, each with the object and the fix, as errors, warnings and notes. Scene avatar: missing scripts, broken renderers and shaders, MA Object Toggles and Bone Proxies that can't work, PhysBones that move nothing (judged against the bake: AAO removes most, but keeps those with a parameter), PhysBones and colliders on hidden objects, unlocked VRC constraints, a blueprint ID that another git branch also has. Bake: menu controls without a parameter, too many synced bits, FX bindings to missing objects, mixed Write Defaults. The MA checks compile only with MA installed.
 
 ### Changed
 
+- `AGENTS.md` and UPLOAD.md: bake and run `CheckAvatar` before a commit that changes the avatar and before an upload. The three Modular Avatar gotchas it checks left GOTCHAS.md (MENUS.md keeps them as rules).
 - `vrchat-avatar-unity`: BAKE.md, RENDER.md and TEST.md use the avatar tools instead of C# snippets to copy (bake, stats, menu map, renders, poses); MENUS.md, `vrchat-outfits`, `vrchat-pc-good` and MMD.md point at them.
 
 ## [0.1.0] - 2026-11-18

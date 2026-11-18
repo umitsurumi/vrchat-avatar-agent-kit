@@ -7,6 +7,8 @@
 
 An upload is outward-facing, and an update overwrites what people already see.
 
+Before asking, bake and run `CheckAvatar` ([BAKE.md](BAKE.md)): no errors, and every warning settled with the user. It also says whether the blueprint ID is shared with another branch.
+
 ## Which blueprint gets overwritten
 
 `BuildAndUpload` uses the `blueprintId` on the root's `PipelineManager`:

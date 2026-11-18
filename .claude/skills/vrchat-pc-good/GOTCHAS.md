@@ -28,7 +28,7 @@ What else stops a merge:
 After merging, blendshapes are renamed (`vrchat-avatar-unity` TEST.md).
 
 **Removing PBs and bones**
-- Trace and Optimize keeps any PB that has a parameter, even with no weights (a base's tail or ears). Delete those by hand; `PhysBoneBudget.cs` has a dead-PhysBone report.
+- Trace and Optimize keeps any PB that has a parameter, even with no weights (a base's tail or ears). Delete those by hand; `CheckAvatar` lists them.
 - Its automatic PB merge needs chains with the same parent and identical settings, which is rare. Use MergePhysBone instead.
 
 **MergePhysBone**

@@ -86,7 +86,7 @@ namespace AvatarAgentKit.Editor
             return sb.ToString().TrimEnd();
         }
 
-        static AnimatorController Controller(VRCAvatarDescriptor desc, VRCAvatarDescriptor.AnimLayerType type)
+        internal static AnimatorController Controller(VRCAvatarDescriptor desc, VRCAvatarDescriptor.AnimLayerType type)
         {
             foreach (var l in desc.baseAnimationLayers.Concat(desc.specialAnimationLayers ?? new VRCAvatarDescriptor.CustomAnimLayer[0]))
                 if (l.type == type && !l.isDefault && l.animatorController != null) return l.animatorController as AnimatorController;
@@ -178,14 +178,14 @@ namespace AvatarAgentKit.Editor
         static void Add(List<string> lines, HashSet<string> seen, GameObject clone, int index, string layer, string state,
             EditorCurveBinding b, string value, ref int missing)
         {
-            var exists = string.IsNullOrEmpty(b.path) || clone.transform.Find(b.path) != null;
+            var exists = string.IsNullOrEmpty(b.path) || IsPlaceholder(b.path) || clone.transform.Find(b.path) != null;
             var line = index + " " + layer + " / " + state + ": [" + b.path + "] " + b.type.Name + "." + b.propertyName + " = " + value + (exists ? "" : "  (missing)");
             if (!seen.Add(line)) return;
             if (!exists) missing++;
             lines.Add(line);
         }
 
-        static IEnumerable<AnimatorState> States(AnimatorStateMachine sm)
+        internal static IEnumerable<AnimatorState> States(AnimatorStateMachine sm)
         {
             if (sm == null) yield break;
             foreach (var cs in sm.states) yield return cs.state;
@@ -193,7 +193,7 @@ namespace AvatarAgentKit.Editor
                 foreach (var s in States(child.stateMachine)) yield return s;
         }
 
-        static IEnumerable<AnimationClip> Clips(Motion motion)
+        internal static IEnumerable<AnimationClip> Clips(Motion motion)
         {
             if (motion is AnimationClip clip) { yield return clip; yield break; }
             if (motion is BlendTree tree)
@@ -202,7 +202,7 @@ namespace AvatarAgentKit.Editor
         }
 
         // Parameters in transition conditions and blend trees, in order of first use.
-        static IEnumerable<string> TestedParameters(AnimatorStateMachine root)
+        internal static IEnumerable<string> TestedParameters(AnimatorStateMachine root)
         {
             var seen = new HashSet<string>();
             foreach (var name in Tested(root)) if (!string.IsNullOrEmpty(name) && seen.Add(name)) yield return name;
@@ -246,6 +246,9 @@ namespace AvatarAgentKit.Editor
             foreach (var child in tree.children)
                 foreach (var p in TreeParameters(child.motion as BlendTree)) yield return p;
         }
+
+        // Bindings that tools add on purpose to paths that don't exist, e.g. AAO's clip-length dummy.
+        internal static bool IsPlaceholder(string path) => path == "$AvatarOptimizerClipLengthDummy$";
 
         static bool Contains(string s, string find) => s != null && s.IndexOf(find, StringComparison.OrdinalIgnoreCase) >= 0;
 
