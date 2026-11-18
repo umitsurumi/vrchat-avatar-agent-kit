@@ -34,7 +34,7 @@ Each one cost real time on a real avatar, unless it is marked as coming from som
 
 ## Scenes and git
 
-- **A bake leaves the scene dirty** with no real change. To prove that, save a copy outside `Assets` and diff it (BAKE.md).
+- **A bake leaves the scene dirty** with no real change. `Bake.Cleanup` saves only when the scene was clean before the bake; otherwise, to prove nothing else changed, save a copy outside `Assets` and diff it (BAKE.md).
 - **The user may have unsaved work in the scene.** Check `isDirty` before every save, and ask if the changes aren't yours. A blind `SaveScene` once saved the user's half-finished outfit swap.
 - **Read-only code can still change the scene file.** Constructing FaceEmo's `FaceEmoInstaller`, even just to read its settings, re-creates FaceEmo's editor-state objects with new IDs. The scene isn't flagged dirty, but the next save writes a large diff with no real change. After any session that should have changed nothing, `git diff` the scene. Churn like this can be reverted (`git checkout -- <scene>`, then reload the scene in Unity).
 - **Switching branches with Unity open:** open an empty scene, switch, refresh, then reopen the scene.

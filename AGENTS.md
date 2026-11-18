@@ -68,7 +68,8 @@ Talk to the user in their language, and write `PROJECT.md`, `HANDOFF-*.md` and c
 
 - `Tools/avatar-kit/doctor.py`: environment check (`--json` for a machine-readable result).
 - `uv run Tools/avatar-kit/texture-kit.py`: texture recipes (masks, makeup PSD, re-tone, recolor, crop and place for image-model redraws). Driven by skill `vrchat-textures`.
-- `Assets/AvatarAgentKit/Editor/`: Unity menu `Tools/Avatar Agent Kit` (UV triangle export for texture masks, Set All Write Defaults ON).
+- `Assets/AvatarAgentKit/Editor/Avatar/`: the avatar tools, called from `execute_code`: `AvatarAgentKit.Editor.Bake`, `ReportPerformance`, `RenderAvatar`. How and when: skill `vrchat-avatar-unity`.
+- `Assets/AvatarAgentKit/Editor/`: Unity menu `Tools/Avatar Agent Kit` (the avatar tools, UV triangle export for texture masks, Set All Write Defaults ON).
 
 ## Skills
 

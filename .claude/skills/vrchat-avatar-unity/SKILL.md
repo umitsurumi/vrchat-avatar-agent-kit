@@ -26,13 +26,13 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 ## The check loop
 
 1. **Change** it, through `Undo`, recording prefab-instance modifications.
-2. **Bake** a clone ([BAKE.md](BAKE.md)): what VRChat receives after MA, NDMF, AAO and the rest.
-3. **Inspect** the clone. Check the stats, the renderers and their materials, the menu, the parameters and the FX map, and the blendshape names (AAO renames merged ones).
-4. **Render** ([RENDER.md](RENDER.md)) and look at the images. Use a preview scene while the user is editing.
+2. **Bake** a clone (`Bake.Run`, [BAKE.md](BAKE.md)): what VRChat receives after MA, NDMF, AAO and the rest.
+3. **Inspect** the clone. Check the stats, the renderers and their materials (`ReportPerformance`), the menu, the parameters and the FX map, and the blendshape names (AAO renames merged ones).
+4. **Render** (`RenderAvatar`, [RENDER.md](RENDER.md)) and look at the images.
 5. **Test motion and logic** ([TEST.md](TEST.md)):
    - play-mode poses for PhysBones and constraints;
    - an animator run for FX layers and toggles.
-6. **Clean up:** destroy clones, close preview scenes, reactivate the source. **Done when** no leftover objects remain and the scene is saved or left exactly as the user had it.
+6. **Clean up** (`Bake.Cleanup`), and close any preview scene of your own. **Done when** no leftover objects remain and the scene is saved or left exactly as the user had it.
 7. **Hand over to the in-game test.** List what only the client can show: physics feel, contacts, other players' view.
 
 ## After an outfit change
@@ -41,8 +41,8 @@ Putting an outfit on, and the cleanup checklist after it, are in skill `vrchat-o
 
 ## Reference
 
-- [BAKE.md](BAKE.md): before baking, measuring or reading the menu and FX of what gets uploaded.
-- [RENDER.md](RENDER.md): before any screenshot or before/after comparison.
+- [BAKE.md](BAKE.md): before baking, measuring or reading the menu and FX of what gets uploaded: the kit's `Bake` and `ReportPerformance` tools.
+- [RENDER.md](RENDER.md): before any screenshot or before/after comparison: the kit's `RenderAvatar` tool.
 - [TEST.md](TEST.md): before testing PhysBones, constraints, toggles, FX layers or gestures.
 - [MENUS.md](MENUS.md): before adding, moving or checking a menu item, toggle or parameter.
 - [UPLOAD.md](UPLOAD.md): before any upload. Ask the user first, every time.

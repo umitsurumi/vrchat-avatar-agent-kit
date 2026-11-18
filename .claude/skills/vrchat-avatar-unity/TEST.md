@@ -45,7 +45,13 @@ Enter play mode, then:
    return POSE;
    ```
 
-3. **Wait 1–3 s** for the PhysBones to settle, then **render in a separate call** (RENDER.md, aimed at the part under test). Compare against a baseline: the same poses with the old settings.
+3. **Wait 1–3 s** for the PhysBones to settle, then **render in a separate call**, aimed at the part under test ([RENDER.md](RENDER.md)). In play mode the scene avatar is the processed one, and its pose is kept:
+
+   ```csharp
+   return AvatarAgentKit.Editor.RenderAvatar.Run("MyAvatar", "front,left,back", focus: "Hips", size: 0.7f, label: "back-new");
+   ```
+
+   Compare against a baseline: the same poses with the old settings.
 
 Poses that caught real problems:
 - **Legs** (garments, skirts): spread 40°, kick back 45°, squat (thigh 110°, knee 130°), side kick 70°.
@@ -57,10 +63,10 @@ Static poses still miss fast motion: dance animations caught clipping that every
 
 ## Animator logic (FX layers, toggles, gestures)
 
-Run the **baked** clone's FX on its own Animator, in edit mode: MA has merged every layer by then. Drive the parameters by hand, advance time and read the state names. Bake first (BAKE.md); this example renames the clone `ZZ_BakeTest`.
+Run the **baked** clone's FX on its own Animator, in edit mode: MA has merged every layer by then. Drive the parameters by hand, advance time and read the state names. Bake first (`Bake.Run`, [BAKE.md](BAKE.md)).
 
 ```csharp
-var clone = GameObject.Find("ZZ_BakeTest");
+var clone = GameObject.Find("MyAvatar_bakecheck");
 var desc = clone.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>();
 RuntimeAnimatorController fx = null;
 foreach (var l in desc.baseAnimationLayers) if (l.type == VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType.FX) fx = l.animatorController;

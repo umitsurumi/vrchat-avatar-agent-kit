@@ -20,6 +20,7 @@ def test_fresh_install(tmp_path):
     report = installer.install(project, dry_run=False)
     for rel in ["AGENTS.md", "CLAUDE.md", "PROJECT.md", ".gitignore", ".gitattributes",
                 "Tools/avatar-kit/doctor.py", "Assets/AvatarAgentKit/Editor/SetAllWriteDefaultsOn.cs",
+                "Assets/AvatarAgentKit/Editor/Avatar/AvatarAgentKit.Editor.Avatar.asmdef",
                 ".claude/skills/vrchat-avatar-unity/SKILL.md", "Assets/_USER/.gitkeep", "TextureSources/.gitkeep"]:
         assert (project / rel).is_file(), rel
     assert (project / ".avatar-kit-version").read_text(encoding="utf-8") == \

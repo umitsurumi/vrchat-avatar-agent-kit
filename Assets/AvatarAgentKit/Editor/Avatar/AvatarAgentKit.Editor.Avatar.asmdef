@@ -1,0 +1,32 @@
+{
+    "name": "AvatarAgentKit.Editor.Avatar",
+    "rootNamespace": "AvatarAgentKit.Editor",
+    "references": [
+        "nadena.dev.ndmf"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "AAK_NDMF",
+        "AAK_VRCSDK3A"
+    ],
+    "versionDefines": [
+        {
+            "name": "nadena.dev.ndmf",
+            "expression": "",
+            "define": "AAK_NDMF"
+        },
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "",
+            "define": "AAK_VRCSDK3A"
+        }
+    ],
+    "noEngineReferences": false
+}

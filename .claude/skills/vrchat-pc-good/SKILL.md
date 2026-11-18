@@ -20,7 +20,7 @@ The numbers and examples below come from **the Green build**: a MANUKA base with
 
 ## Steps
 
-1. **Baseline.** Bake and measure. Write into the handoff:
+1. **Baseline.** Bake and measure (`Bake.Run`, then `ReportPerformance.Run` with `top` high enough to list every renderer and chain). Write into the handoff:
    - each metric against Good, with the rank it sets;
    - triangles and materials per renderer after the bake;
    - PhysBone transforms per chain, and colliders;

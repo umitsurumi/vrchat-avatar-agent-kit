@@ -4,6 +4,17 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Added
+
+- Avatar tools in Unity (`Assets/AvatarAgentKit/Editor/Avatar/`, assembly `AvatarAgentKit.Editor.Avatar`, compiled only when NDMF and the VRChat Avatars SDK are installed). Static methods that return text, for one line of `execute_code`, and menu items under `Tools/Avatar Agent Kit`:
+  - `Bake.Run` / `Bake.Cleanup`: the NDMF-baked clone `<avatar>_bakecheck`, with NDMF's errors in the result; cleanup restores the source and saves the scene only if it was clean before the bake.
+  - `ReportPerformance.Run`: the PC rating of a baked clone, the metrics that set it, each metric with the limit of the next better rating (read from the SDK), and the biggest renderers and PhysBones.
+  - `RenderAvatar.Run`: renders targets into a sheet in a preview scene, without touching the user's scene; preset shots, arms down on baked clones, close-ups of one part (`focus`), labels for before/after.
+
+### Changed
+
+- `vrchat-avatar-unity`: BAKE.md and RENDER.md use the avatar tools instead of C# snippets to copy; TEST.md renders pose tests with `RenderAvatar`. The menu/FX snippet stays.
+
 ## [0.1.0] - 2026-11-18
 
 First public release: the private avatar-modding template becomes a public kit.
