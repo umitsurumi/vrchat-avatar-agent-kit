@@ -15,7 +15,8 @@
 // that move nothing, and PhysBones and colliders on hidden objects (with a bake: only those that survive it;
 // AAO removes many); unlocked VRC constraints; a blueprint ID that another git branch's copy of the scene also has.
 // Bake: menu controls whose parameter doesn't exist; more synced bits than VRChat allows; FX bindings to
-// objects that don't exist; Write Defaults that differ between FX layers.
+// objects that don't exist; Write Defaults that differ between FX layers; lilToon renderers that a
+// light-setting gimmick (Surin's lilToon light setting) doesn't animate, or animates as another renderer type.
 //
 // Verified on: Unity 2022.3.22f1, VRChat SDK 3.10.5, MA 1.18; a MANUKA avatar with MA toggles, Bone Proxies,
 // FaceEmo and three git branches.
@@ -373,6 +374,47 @@ namespace AvatarAgentKit.Editor
             if (on > 0 && off > 0)
                 f.Add(Level.Warning, where, "Write Defaults differ between FX layers: " + on + " on, " + off + " off or mixed (" + Listed(offLayers)
                     + "). Mixed Write Defaults are a classic cause of stuck toggles and faces. Fix: keep one convention.");
+            LightSetting(clone, fx, f);
+        }
+
+        // lilToon lighting properties that brightness gimmicks (Surin's lilToon light setting and the like) key on
+        // every lilToon renderer.
+        static readonly string[] LightProperties = { "material._LightMinLimit", "material._LightMaxLimit", "material._MonochromeLighting" };
+
+        // A renderer such a gimmick doesn't animate ignores the brightness setting, and AAO won't merge it with the
+        // renderers it does animate. That happens to parts added after the gimmick's tool ran, and to curves keyed
+        // for another renderer type (a MeshRenderer since turned into a SkinnedMeshRenderer): those animate nothing,
+        // and the build drops them, so they count as missing here.
+        static void LightSetting(GameObject clone, UnityEditor.Animations.AnimatorController fx, Findings f)
+        {
+            var animated = new Dictionary<string, HashSet<Type>>(); // renderer path -> binding types
+            var layers = new HashSet<string>();
+            foreach (var layer in fx.layers)
+                foreach (var clip in ReportMenu.States(layer.stateMachine).SelectMany(s => ReportMenu.Clips(s.motion)).Distinct())
+                    foreach (var b in AnimationUtility.GetCurveBindings(clip))
+                        if (LightProperties.Contains(b.propertyName))
+                        {
+                            if (!animated.TryGetValue(b.path, out var types)) animated[b.path] = types = new HashSet<Type>();
+                            types.Add(b.type);
+                            layers.Add(Targets.Quote(layer.name));
+                        }
+            if (animated.Count < 2) return; // not a gimmick that covers every renderer
+
+            var root = clone.transform;
+            var missing = new List<string>();
+            foreach (var r in clone.GetComponentsInChildren<Renderer>(true))
+            {
+                if (!(r is SkinnedMeshRenderer) && !(r is MeshRenderer)) continue;
+                if (!r.sharedMaterials.Any(m => m != null && m.shader != null && m.shader.name.Contains("lilToon"))) continue;
+                var path = Path(r.transform, root);
+                if (!animated.TryGetValue(path, out var types) || !types.Any(t => t.IsAssignableFrom(r.GetType()))) missing.Add(path);
+            }
+            if (missing.Count > 0)
+                f.Add(Level.Warning, "bake", Plural(missing.Count, "lilToon renderer") + " not animated by the light setting in FX layer "
+                    + string.Join(", ", layers.OrderBy(s => s)) + ": " + Listed(missing)
+                    + ". They ignore the brightness setting, and AAO won't merge them with the rest. Usually parts added after the light-setting tool ran,"
+                    + " or curves keyed for another renderer type (a MeshRenderer turned into a SkinnedMeshRenderer). Fix: rerun the light-setting tool,"
+                    + " or add or retype their curves (vrchat-avatar-unity GOTCHAS, lilToon); leave a part out only if it should stay unaffected (a glowing part).");
         }
 
         static IEnumerable<(string path, string parameter)> MenuParameters(VRCExpressionsMenu menu, string prefix, HashSet<VRCExpressionsMenu> seen)

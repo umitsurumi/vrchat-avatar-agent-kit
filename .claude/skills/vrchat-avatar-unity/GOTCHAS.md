@@ -57,7 +57,7 @@ Each one cost real time on a real avatar, unless it is marked as coming from som
 
 - **Feature flags:** material properties set from a script don't turn on lilToon's shader-feature flags (e.g. a second emission map). Run lilToon's own setting refresh by reflection: the internal `lilToonSetting.LoadShaderSetting`, `CheckTextures(ref setting, material)` and `ApplyShaderSetting(setting, null)`.
 - **`lilToonSetting.json`** is rewritten at build, turning unused features off. That is build churn, not a change.
-- **Surin's "lilToon light setting"** animates every lilToon renderer, with its curves typed by renderer type. Its button recreates its object and FX with a new GUID, and once lost a Menu Install Target. To cover new or renamed renderers, rewrite its generated `Brightness.anim` / `Monochromatic.anim` in place: clear the curves, then key `_LightMinLimit`, `_LightMaxLimit` and `_MonochromeLighting` per renderer.
+- **Surin's "lilToon light setting"** animates every lilToon renderer, with its curves typed by renderer type. Its button recreates its object and FX with a new GUID, and once lost a Menu Install Target. `CheckAvatar` on a bake names the lilToon renderers it doesn't animate. To cover new or renamed renderers, rewrite its generated `Brightness.anim` / `Monochromatic.anim` in place: clear the curves, then key `_LightMinLimit`, `_LightMaxLimit` and `_MonochromeLighting` per renderer, typed as the renderer's type.
 
 ## Assets and import
 

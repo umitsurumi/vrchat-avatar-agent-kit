@@ -23,7 +23,7 @@ What else stops a merge:
 - **Toggles:** renderers with different toggle animations never merge, and MeshRenderers never do. Turning an accessory's toggle into an MA Shape Changer driving a `Hide` shape makes it mergeable.
 - **MMD compatibility** keeps the face (`Body`) out of the merge.
 - **Material-swap animations:** a renderer with one (e.g. gloves swapping the body material) doesn't merge.
-- **Light-setting animations:** a renderer missing from them (Surin lilToon light setting) doesn't merge, and one whose curves are typed as MeshRenderer after conversion to a skinned mesh doesn't either. Retarget or copy the curves.
+- **Light-setting animations:** a renderer missing from them (Surin lilToon light setting) doesn't merge, and one whose curves are typed as MeshRenderer after conversion to a skinned mesh doesn't either. `CheckAvatar` on a bake names both. Retarget or copy the curves.
 
 After merging, blendshapes are renamed (`vrchat-avatar-unity` TEST.md).
 

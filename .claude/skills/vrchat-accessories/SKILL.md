@@ -42,7 +42,7 @@ An accessory has few triangles, but it reaches into everything: a bone to follow
    - With a rank target: an MA Shape Changer that collapses the accessory by a `Hide_*` shape key, instead of an Object Toggle, so the accessory still merges (`vrchat-pc-good`, `MaterialSlotMerge.cs`).
 7. **Reactions** (an accessory that shows when you speak, mute, go AFK or get your head patted): [REACTIONS.md](REACTIONS.md).
 8. **Check on a bake:**
-   - `CheckAvatar`: toggles, Bone Proxies, dead PhysBones.
+   - `CheckAvatar`: toggles, Bone Proxies, dead PhysBones, renderers the light setting misses.
    - `ReportMenu` with `find` for each toggle: it drives the accessory; a cut-down pack left no parameters behind.
    - `ReportPerformance`: what the accessory added (triangles, material slots, meshes), against the plan.
    - Renders: close-ups and a normal-distance view, every toggle state, the expressions for anything on the face.
