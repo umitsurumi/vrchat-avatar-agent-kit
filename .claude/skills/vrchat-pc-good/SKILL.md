@@ -45,7 +45,7 @@ The numbers and examples below come from **the Green build**: a MANUKA base with
    - follow-body garments;
    - colliders, merged chains and static parts.
 
-   Legs: spread, kick back, squat, side kick. Torso: lean back, left, right and forward, arms down. **Done when** the renders show no crossing, or the user has accepted what remains.
+   Legs: spread, kick back, squat, side kick. Torso: lean back, left, right and forward, arms down. Measure each pose with `ReportClipping` against a standing reference, then render the regions it names. **Done when** the measurements and renders show no crossing, or the user has accepted what remains.
 5. **Verify.** Bake: overall Good, and every category Good. Then check:
    - each menu toggle still reaches its target (shape keys exist in the merged mesh, objects exist);
    - expression and MMD blendshapes survive;

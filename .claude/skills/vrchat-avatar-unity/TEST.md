@@ -6,17 +6,23 @@ The Unity Editor shows less than the VRChat client. PhysBones and VRC constraint
 
 ## Pose test (PhysBones, constraints, clipping)
 
-Enter play mode (`manage_editor` play), then pose, wait, render, each in its own call:
+Enter play mode (`manage_editor` play), then pose, wait, measure, render, each in its own call. Measure clipping first and render the regions it names: a measurement settles what a picture only suggests.
 
 ```csharp
-return AvatarAgentKit.Editor.Pose.Run("MyAvatar", "squat");     // rest pose, arms down, then the pose; Animator off
+return AvatarAgentKit.Editor.Pose.Run("MyAvatar", "stand");     // rest pose, arms down; Animator off
 // wait 1–3 s for the PhysBones to settle
-return AvatarAgentKit.Editor.RenderAvatar.Run("MyAvatar", "front,left,back", focus: "Hips", size: 0.9f, label: "squat");
+return AvatarAgentKit.Editor.ReportClipping.Run("MyAvatar");    // standing: saves the reference
+return AvatarAgentKit.Editor.Pose.Run("MyAvatar", "squat");     // rest pose, arms down, then the pose
+// wait 1–3 s
+return AvatarAgentKit.Editor.ReportClipping.Run("MyAvatar");    // what came out through which cover, how far, where
+return AvatarAgentKit.Editor.RenderAvatar.Run("MyAvatar", "front,left,back", focus: "LeftUpperLeg", size: 0.5f, label: "squat");
 return AvatarAgentKit.Editor.Pose.Reset("MyAvatar");             // rest pose, Animator back on
 ```
 
 - **Legs** (skirts, garments): `spread`, `kick-back`, `side-kick`, `squat`, `sit`. **Torso** (hair, braids): `lean-back`, `lean-forward`, `lean-left`, `lean-right`. Angles and the full list are in the header of `Pose.cs`. All but `sit` caught real problems.
+- **`ReportClipping`** measures skin (the materials named like body or skin, or `inner:` what you name, e.g. underwear) coming out through the clothes over it, against the standing reference: per body part and garment material, how many vertices and how deep, with the next render call. What was already through standing (design seams such as face over neck, hands hanging into a wide skirt) is listed once and then only reported when a pose pushes it deeper. "Exposed" means the garment moved away, not clipping. It doesn't measure hair or cloth sinking into the body; render for those.
 - In play mode the scene avatar is the processed one, and `RenderAvatar` keeps its pose.
+- **Entering play mode** runs NDMF on the avatar (20–30 s on a big one). The first `execute_code` after it often fails; wait for `mcpforunity://editor/state` to stop being stale. Twice the connection didn't come back at all and the user had to stop play mode or restart Unity: do all poses in one play session.
 - **Compare against a baseline:** the same poses with the old settings, rendered with their own `label`.
 - **Static poses still miss fast motion:** dance animations caught clipping that every static pose missed. Put it on the in-game checklist, e.g. a dance in an MMD world, watching the skirt and the hair.
 

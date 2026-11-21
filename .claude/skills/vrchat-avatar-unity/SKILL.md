@@ -30,7 +30,7 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 3. **Inspect** the clone. Run `CheckAvatar`. Check the stats, the renderers and their materials (`ReportPerformance`), the menu, the parameters and the FX map (`ReportMenu`), and the blendshape names (AAO renames merged ones).
 4. **Render** (`RenderAvatar`, [RENDER.md](RENDER.md)) and look at the images.
 5. **Test motion and logic** ([TEST.md](TEST.md)):
-   - play-mode poses for PhysBones and constraints;
+   - play-mode poses for PhysBones and constraints, with clipping measured (`ReportClipping`);
    - an animator run for FX layers and toggles.
 6. **Clean up** (`Bake.Cleanup`), and close any preview scene of your own. **Done when** no leftover objects remain and the scene is saved or left exactly as the user had it.
 7. **Hand over to the in-game test.** Write what only the client can show (physics feel, contacts, other players' view) into the handoff as a checklist: what to do, where to look, what counts as right.

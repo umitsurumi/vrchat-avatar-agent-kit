@@ -11,6 +11,7 @@
 //   torso, for hair and braids: lean-back, lean-forward, lean-left, lean-right (15 degrees on Spine and on Chest)
 //   legs, for skirts and garments: spread (legs 40 degrees apart), kick-back (right leg 45 back),
 //     side-kick (right leg 70 out), squat (thighs 110 forward, knees 130), sit (thighs 90 forward, knees 90)
+//   stand: the rest pose with the arms down (ReportClipping's reference pose).
 //   rest: the rest pose only, arms not moved.
 // All but sit caught real clipping. Static poses still miss fast motion: ask the user to check in game
 // (an MMD dance world shows a lot).
@@ -31,13 +32,19 @@ namespace AvatarAgentKit.Editor
         const string Tool = "Pose";
 
         // A new play session starts with no saved rest pose (also when domain reload on play is off).
-        static Pose() => EditorApplication.playModeStateChanged += _ => Rest.Clear();
+        static Pose() => EditorApplication.playModeStateChanged += _ => { Rest.Clear(); Current.Clear(); };
 
         static readonly string[] Names =
-            { "rest", "lean-back", "lean-forward", "lean-left", "lean-right", "spread", "kick-back", "side-kick", "squat", "sit" };
+            { "rest", "stand", "lean-back", "lean-forward", "lean-left", "lean-right", "spread", "kick-back", "side-kick", "squat", "sit" };
 
         // Rest pose per avatar (instance ID), for the current play session.
         static readonly Dictionary<int, Dictionary<HumanBodyBones, Quaternion>> Rest = new Dictionary<int, Dictionary<HumanBodyBones, Quaternion>>();
+
+        // The poses last applied per avatar (instance ID), for the current play session; ReportClipping labels with it.
+        static readonly Dictionary<int, string> Current = new Dictionary<int, string>();
+
+        // "rest", "stand", a pose list like "squat", or null when the avatar wasn't posed in this play session.
+        internal static string CurrentPose(GameObject source) => Current.TryGetValue(source.GetInstanceID(), out var p) ? p : null;
 
         public static string Run(string avatar = null, string pose = "rest")
         {
@@ -75,6 +82,7 @@ namespace AvatarAgentKit.Editor
                 }
             }
 
+            Current[source.GetInstanceID()] = string.Join(",", poses);
             var legs = poses.Any(p => p == "spread" || p == "kick-back" || p == "side-kick" || p == "squat" || p == "sit");
             var focus = legs ? "focus: \"Hips\", size: 0.9f" : "focus: \"Head\", size: 0.9f";
             return Tool + ": " + string.Join(", ", poses) + " on " + Targets.Quote(source.name)
@@ -92,6 +100,7 @@ namespace AvatarAgentKit.Editor
                 return tool + ": nothing to reset: " + Targets.Quote(source.name) + " was not posed in this play session.";
             Restore(source, anim);
             Rest.Remove(source.GetInstanceID());
+            Current.Remove(source.GetInstanceID());
             anim.enabled = true;
             return tool + ": " + Targets.Quote(source.name) + " is back in its rest pose; Animator on.";
         }

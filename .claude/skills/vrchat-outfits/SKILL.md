@@ -23,7 +23,7 @@ Putting an outfit on with Modular Avatar takes minutes. The time goes into what 
    - **Shrink keys:** the base's own `Shrink_*` / hide keys under tight or long clothes, and the outfit's own keys for layering (an inner shirt's key for a coat on top, a hoodie's key under a coat). The outfit's notes or images usually list them.
    - **Body-shape keys the outfit was made for:** e.g. a breast-size variant of the outfit needs the matching key on the body.
    - **Underwear** the outfit always covers: remove it from the prefab instance or tag it EditorOnly. Underwear that shows when a layer is toggled off stays, or gets its own handling in that toggle.
-   - **Skin that still pokes through** at joints in poses: more shrink, or remove the hidden body triangles (AAO Remove Mesh By Mask; `vrchat-pc-good` has a mask generator).
+   - **Skin that still pokes through** at joints in poses (measure it: `ReportClipping` in the pose test, `vrchat-avatar-unity` TEST.md): more shrink, or remove the hidden body triangles (AAO Remove Mesh By Mask; `vrchat-pc-good` has a mask generator).
 5. **Variants and toggles** ([MENUS.md](../vrchat-avatar-unity/MENUS.md)):
    - **One prefab, several states.** Vendor "A/B" prefabs often differ only in which mesh is on and a few shape keys. Keep one, and switch the states with one int parameter: per state an Object Toggle plus a Shape Changer (Set) for the keys.
    - **Layers:** when an outer layer can come off, check what is under it in every state: the inner layer's shrink keys, underwear, the body's shrink keys.
@@ -36,7 +36,7 @@ Putting an outfit on with Modular Avatar takes minutes. The time goes into what 
    - Tools that write per-renderer animations (light-setting gimmicks, material curves) have to be rerun or updated for the new renderers; removed renderers must leave no curves behind.
    - Recolouring a texture: `vrchat-textures`.
 8. **Check** on a bake before calling it done:
-   - **Body under the outfit:** shrink keys set, nothing poking through in pose tests, covered underwear gone, toggled underwear still toggled.
+   - **Body under the outfit:** shrink keys set, nothing poking through in pose tests (`ReportClipping` per pose; underwear too, with `inner:`), covered underwear gone, toggled underwear still toggled.
    - **Toggles:** each one beside what it switches, Bone Proxies on the toggled roots; `ReportMenu` with `find` on the bake (`vrchat-avatar-unity` BAKE.md) shows every toggle driving what it should; every state rendered.
    - **The outfit's own components:** its Shape Changers and Material Setters target paths that exist on this avatar (outfits made for another base can point at nothing); its PhysBones and colliders don't duplicate the hair's or the body's.
    - **Renderers:** new ones are covered by the avatar's per-renderer animations (`CheckAvatar` names lilToon renderers a light setting misses); their MA Mesh Settings match the rest, so meshes still merge; removed or renamed ones leave no dangling curves.
