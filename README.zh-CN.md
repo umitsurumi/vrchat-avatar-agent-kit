@@ -5,7 +5,7 @@
 和 AI 编程 agent（Claude Code、Codex 等）一起改 VRChat Avatar 的起步工具箱。把它装进用 [ALCOM](https://vrc-get.anatawa12.com/alcom/) 建好的 Unity Avatar 项目，agent 就有了：
 
 - **规则**（`AGENTS.md`）：先检查环境，不碰厂商原文件，一次提交一件能单独撤销的事，上传前先问。
-- **Skills**（`.claude/skills/`）：怎样烘焙并检查 VRChat 实际收到的头像，穿衣服，改贴图，做表情，冲 PC Good，在 Booth 上调研商品。
+- **Skills**（`.claude/skills/`）：怎样烘焙并检查 VRChat 实际收到的头像，穿衣服，加饰品，改贴图，做表情，冲 PC Good，在 Booth 上调研商品。
 - **工具**：环境检查；每次都从原图重新生成贴图的 texture kit；几个 Unity 编辑器小工具。
 
 Git 记录每一步，agent 做的任何事都能撤销。
@@ -94,6 +94,7 @@ agent 通过 [MCP for Unity](https://github.com/CoplayDev/unity-mcp) 操作打�
 | --- | --- |
 | `vrchat-avatar-unity` | 基础：通过 MCP for Unity 在打开着的 Unity 里工作：烘焙检查、渲染、测试、菜单和开关、上传 |
 | `vrchat-outfits` | 用 Modular Avatar 穿衣服，以及穿上后的收尾 |
+| `vrchat-accessories` | 饰品：精简饰品包、挂载、改色、开关，以及对说话、AFK、摸头的反应；附参考脚本 |
 | `vrchat-textures` | 贴图配方、妆容、调色、用生图模型重画贴图、lilToon 材质 |
 | `vrchat-expressions` | 捏脸、FaceEmo 表情、MMD 世界兼容 |
 | `vrchat-pc-good` | 把头像做到 PC Good（绿模，一种性能评级），附参考脚本 |

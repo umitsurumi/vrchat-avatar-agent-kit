@@ -5,7 +5,7 @@ description: Put an outfit on a VRChat avatar with Modular Avatar and clean up a
 
 # Outfits
 
-Builds on **`vrchat-avatar-unity`**: load it first for baking, renders and tests, and read its [MENUS.md](../vrchat-avatar-unity/MENUS.md) before making any toggle. Picking the outfit is `booth-research`; recolouring it is `vrchat-textures`; fitting it into a performance rank is `vrchat-pc-good`.
+Builds on **`vrchat-avatar-unity`**: load it first for baking, renders and tests, and read its [MENUS.md](../vrchat-avatar-unity/MENUS.md) before making any toggle. Picking the outfit is `booth-research`; recolouring it is `vrchat-textures`; fitting it into a performance rank is `vrchat-pc-good`. Accessories (pins, glasses, a brooch) and their gimmicks are `vrchat-accessories`; hats and gloves stay here.
 
 Putting an outfit on with Modular Avatar takes minutes. The time goes into what comes after: skin and underwear showing through, layers that only work in one combination, PhysBones of parts that are hidden, per-renderer tools that don't know the new meshes. Plan for that part.
 

@@ -83,6 +83,7 @@ Skills live in `.claude/skills/` (`.agents/skills` links to it for Codex):
 
 - `vrchat-avatar-unity`: the base for avatar work in Unity: bake and inspect, render, test, menus and toggles, upload.
 - `vrchat-outfits`: putting on an outfit with Modular Avatar and cleaning up after it.
+- `vrchat-accessories`: accessories (pins, glasses, brooches), their toggles and small reactions.
 - `vrchat-textures`: texture recipes, makeup, recolouring, redrawing with an image model, lilToon materials.
 - `vrchat-expressions`: face shaping, FaceEmo expressions, MMD-world compatibility.
 - `vrchat-pc-good`: taking an avatar to PC Good (a performance rank).

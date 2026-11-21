@@ -35,9 +35,9 @@ The editor is **shared**: the user works in the same Unity, often in the same sc
 6. **Clean up** (`Bake.Cleanup`), and close any preview scene of your own. **Done when** no leftover objects remain and the scene is saved or left exactly as the user had it.
 7. **Hand over to the in-game test.** Write what only the client can show (physics feel, contacts, other players' view) into the handoff as a checklist: what to do, where to look, what counts as right.
 
-## After an outfit change
+## Outfits and accessories
 
-Putting an outfit on, and the cleanup checklist after it, are in skill `vrchat-outfits`.
+Putting an outfit on, and the cleanup checklist after it, are in skill `vrchat-outfits`. Accessories, their toggles and small reactions are in `vrchat-accessories`.
 
 ## Reference
 

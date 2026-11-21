@@ -5,7 +5,7 @@
 A starter kit for modding VRChat avatars together with an AI coding agent (Claude Code, Codex, …). It drops into a Unity avatar project made with [ALCOM](https://vrc-get.anatawa12.com/alcom/) and gives the agent:
 
 - **Rules** (`AGENTS.md`): check the environment first, never touch vendor files, commit one undoable step at a time, ask before uploading.
-- **Skills** (`.claude/skills/`): how to bake and inspect the avatar the way VRChat receives it, put on outfits, change textures, build expressions, reach PC Good, and research items on Booth.
+- **Skills** (`.claude/skills/`): how to bake and inspect the avatar the way VRChat receives it, put on outfits, add accessories, change textures, build expressions, reach PC Good, and research items on Booth.
 - **Tools**: an environment check, a texture kit that always rebuilds a texture from its original, and a few Unity editor helpers.
 
 Git records every step, so anything the agent does can be undone.
@@ -94,6 +94,7 @@ The kit has two tiers:
 | --- | --- |
 | `vrchat-avatar-unity` | the base: working in the open Unity Editor through MCP for Unity: bake and inspect, render, test, menus and toggles, upload |
 | `vrchat-outfits` | putting on an outfit with Modular Avatar and cleaning up after it |
+| `vrchat-accessories` | accessories: cutting a pack down, attaching, recolouring, toggles, reactions to voice, AFK and head pats; with reference scripts |
 | `vrchat-textures` | texture recipes, makeup, recolouring, redrawing a texture with an image model, lilToon materials |
 | `vrchat-expressions` | face shaping, FaceEmo expressions, MMD-world compatibility |
 | `vrchat-pc-good` | taking an avatar to PC Good (a performance rank), with reference scripts |
