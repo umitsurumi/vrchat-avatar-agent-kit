@@ -4,6 +4,10 @@ All notable changes to this kit. The format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-21
+
+The Unity side becomes tools: the agent bakes, checks, measures and renders with one call each instead of pasting C# snippets. A skill for accessories.
+
 ### Added
 
 - Avatar tools in Unity (`Assets/AvatarAgentKit/Editor/Avatar/`, assembly `AvatarAgentKit.Editor.Avatar`, compiled only when NDMF and the VRChat Avatars SDK are installed). Static methods that return text, for one line of `execute_code`, and menu items under `Tools/Avatar Agent Kit`:
@@ -51,5 +55,6 @@ First public release: the private avatar-modding template becomes a public kit.
 - Texture makeup moved from `vrchat-expressions` to `vrchat-textures`; `vrchat-expressions` keeps what makeup may touch.
 - Skill descriptions name the everyday words people use (换衣服, 绿模, 改色, Very Poor, …) so they trigger without the jargon.
 
-[Unreleased]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/umitsurumi/vrchat-avatar-agent-kit/releases/tag/v0.1.0
